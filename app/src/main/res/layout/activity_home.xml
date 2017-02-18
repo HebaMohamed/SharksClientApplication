@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.client.gp.sharksclientapplication.HomeActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/car"
+        android:src="@drawable/prologo3"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Heba Mohamed"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:id="@+id/usernametxt"
+        android:paddingBottom="20dp"
+        android:layout_below="@+id/car"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/relativeLayout">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:weightSum="2">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:id="@+id/historybtn"
+                android:src="@drawable/historyicns"
+                android:background="@color/colorPrimary" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:id="@+id/settingsbtn"
+                android:src="@drawable/settingsicns"
+                android:background="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <at.markushi.ui.CircleButton
+        android:layout_width="130dip"
+        android:layout_height="130dip"
+        android:src="@drawable/smallblueshark"
+        app:cb_color="@color/colorAccent"
+        app:cb_pressedRingWidth="10dip"
+        android:id="@+id/gobtn"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-60dp"/>
+
+
+</RelativeLayout>
