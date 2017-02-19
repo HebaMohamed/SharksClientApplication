@@ -22,6 +22,7 @@ public class AppConstants {
 
     public static final String BROADCAST_TRIP_ACCEPT_ACTION = "com.client.gp.sharksclientapplication.tripaccepted";
     public static final String BROADCAST_TRIP_START_ACTION = "com.client.gp.sharksclientapplication.tripstarted";
+    public static final String BROADCAST_TRIP_END_ACTION = "com.client.gp.sharksclientapplication.tripended";
 
     public static final String MAP_API_KEY = "AIzaSyBMkIegihYnGDWqYZukBz2eo_InQOh-XEI";
 

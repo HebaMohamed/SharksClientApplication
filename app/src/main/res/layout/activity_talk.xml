@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_talk"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.client.gp.sharksclientapplication.TalkActivity">
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/talklv"
+        android:layout_above="@+id/linearlayout"
+        android:layout_below="@+id/languagesspinner"></ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:id="@+id/linearlayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Your message"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:id="@+id/nmsgtxt" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/sendbtn"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:src="@drawable/chat"
+            app:cb_color="@color/colorAccent"
+            app:cb_pressedRingWidth="10dip"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/languagesspinner"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"></Spinner>
+
+</RelativeLayout>

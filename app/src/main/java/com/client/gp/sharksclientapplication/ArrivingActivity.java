@@ -24,6 +24,7 @@ import com.pubnub.api.Callback;
 import com.pubnub.api.PubnubError;
 import com.pubnub.api.PubnubException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ArrivingActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -62,11 +63,13 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-//                startActivity(new Intent(ArrivingActivity.this, TripRequestActivity.class));
+                startActivity(new Intent(ArrivingActivity.this, InTripActivity.class));
                 finish();
             }
         };
         registerReceiver(receiver, filter);
+
+        sendTestStarted();//testttttttt
 
 
     }
@@ -146,4 +149,21 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
         }
 
     }
+
+
+
+
+    ///////////////////////////////////////////////////////////////////
+    void sendTestStarted(){
+
+        JSONObject jso = new JSONObject();
+        try {
+            jso.put("type", "tripstarted");
+            jso.put("destlat", 30.123177);
+            jso.put("destlng", 31.009540);
+            MyApplication.sendNotification(jso);
+
+        } catch (JSONException e) { e.printStackTrace(); }
+    }
+
 }

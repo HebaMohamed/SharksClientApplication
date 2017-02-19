@@ -159,7 +159,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
                     removeRegistrationId(MyApplication.getAppContext());
                     // Disable Push Notification
                     pubnub.disablePushNotificationsOnChannel(AppConstants.CHANNEL_NOTIFY, regId);
-                } catch (Exception e) { }
+                } catch (Exception e) { e.printStackTrace(); }
                 return null;
             }
         }.execute(null, null, null);
@@ -240,6 +240,11 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         editor.putString(AppConstants.PROPERTY_APP_STATE, "intrip");
         editor.putString("destlat", String.valueOf(destlat));
         editor.putString("destlng", String.valueOf(destlng));
+        editor.apply();
+    }
+    public static void setEndTripState() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(AppConstants.PROPERTY_APP_STATE, "tripended");
         editor.apply();
     }
 /////////

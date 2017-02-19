@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.client.gp.sharksclientapplication.MainActivity;
 import com.client.gp.sharksclientapplication.R;
+import com.client.gp.sharksclientapplication.TalkActivity;
 import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.Vehicle;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -55,6 +56,9 @@ public class GcmIntentService extends IntentService {
                 else if(type.equals("tripended")){
                     goTripEnded();
                 }
+                else if(type.equals("passengertalk")){
+                    goDriverrTalk(extras.getString("msg"), extras.getString("msgflag"));
+                }
 
 
         }
@@ -91,17 +95,20 @@ public class GcmIntentService extends IntentService {
     }
 
     void goTripEnded(){
-
+        MyApplication.setEndTripState();
+        //send broad cast to end
+        Intent intent = new Intent(AppConstants.BROADCAST_TRIP_END_ACTION);
+        sendBroadcast(intent);
     }
 
-    public void goPassengerTalk(String msg, String msgFlag){ // sendBroadcastMessage
+    public void goDriverrTalk(String msg, String msgFlag){ // sendBroadcastMessage
         try {
             Intent intent = new Intent(AppConstants.BROADCAST_MSG_ACTION);
             intent.putExtra("msg", msg);
             intent.putExtra("msgflag", msgFlag);
             sendBroadcast(intent);
             //send notification
-//            sendNotification(msg, "Passenger Message!", new TripRequestActivity(),2);
+            sendNotification(msg, "Driver Message!", new TalkActivity(),2);
         } catch (Exception e) {
             e.printStackTrace();
         }

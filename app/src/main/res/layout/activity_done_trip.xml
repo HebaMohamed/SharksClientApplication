@@ -83,16 +83,6 @@
 
     </LinearLayout>
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:rating="5"
-        android:progressTint="@color/colorAccent"
-        android:id="@+id/ratingBar" />
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -117,6 +107,18 @@
             android:hint="Comment"
             android:layout_above="@+id/submitbtn"
             android:layout_centerHorizontal="true" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:rating="5"
+            android:progressTint="@color/colorAccent"
+            android:id="@+id/ratingBar"
+            android:layout_above="@+id/submitbtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="86dp" />
+
     </RelativeLayout>
 
 </RelativeLayout>

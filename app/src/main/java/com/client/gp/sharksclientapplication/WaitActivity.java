@@ -50,17 +50,7 @@ public class WaitActivity extends AppCompatActivity {
         } catch (JSONException e) { e.printStackTrace(); }
     }
 
-    void sendTestStarted(){
 
-        JSONObject jso = new JSONObject();
-        try {
-            jso.put("type", "tripstarted");
-            jso.put("destlat", 30.123177);
-            jso.put("destlng", 31.009540);
-            MyApplication.sendNotification(jso);
-
-        } catch (JSONException e) { e.printStackTrace(); }
-    }
 
 
 

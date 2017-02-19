@@ -1,6 +1,11 @@
 package com.client.gp.sharksclientapplication;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
+import com.client.gp.sharksclientapplication.myclasses.TalkMessage;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +36,7 @@ import com.pubnub.api.PubnubError;
 import com.pubnub.api.PubnubException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -66,7 +73,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         chatbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(InTripActivity.this, TalkActivity.class));
             }
         });
         warningbtn.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +83,24 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
             }
         });
 
+        /////recive trip start
+        IntentFilter filter = new IntentFilter(AppConstants.BROADCAST_TRIP_END_ACTION);
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                startActivity(new Intent(InTripActivity.this, DoneTripActivity.class));
+                finish();
+            }
+        };
+        registerReceiver(receiver, filter);
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -91,11 +112,17 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         LatLng ll = new LatLng(currentTrip.destination.getLatitude(),currentTrip.destination.getLongitude());
         mMap.addMarker(new MarkerOptions().position(ll).title("Destination"));
 
-        //init driver marker mn 8er position again :D
+        //init vehicle marker :D
+        Location l = MyApplication.getLastKnownLocation();
         drivermarker =  mMap.addMarker(new MarkerOptions()
                 .title("My Location")
-                .position(ll)
+                .position(new LatLng(l.getLatitude(),l.getLongitude()))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark)));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));//first only
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        getDirections(l.getLatitude(), l.getLongitude());
+
 
 
         //listen to my vehicles moves
@@ -123,8 +150,8 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
                                 JSONObject obj = (JSONObject) message;
                                 int id = obj.getInt("id");
                                 if (id == currentTrip.d.id) {//get location for my vehicle
-                                    Double lat = obj.getDouble("lat");
-                                    Double lng = obj.getDouble("lng");
+                                    final Double lat = obj.getDouble("lat");
+                                    final Double lng = obj.getDouble("lng");
                                     final LatLng ll = new LatLng(lat, lng);
 
                                     runOnUiThread(new Runnable() { // l runnable d 3shn err IllegalStateException 3shn d async
@@ -132,6 +159,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
                                         public void run() {
                                             // Your code to run in GUI thread here
                                             drivermarker.setPosition(ll);
+                                            getDirections(lat, lng);
                                         }
                                     });
 
@@ -220,6 +248,10 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         // Add the request to the queue
         Volley.newRequestQueue(MyApplication.getAppContext()).add(sr);
     }
+
+
+
+
 
 
 
