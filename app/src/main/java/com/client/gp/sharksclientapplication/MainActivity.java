@@ -11,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        int x = 514584;
+
         startActivity(new Intent(MainActivity.this, HomeActivity.class));
 
     }

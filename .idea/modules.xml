@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SharksClientApplication.iml" filepath="$PROJECT_DIR$/SharksClientApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SharksClientApp.iml" filepath="$PROJECT_DIR$/SharksClientApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
