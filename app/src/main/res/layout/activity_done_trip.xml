@@ -15,11 +15,11 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="20$"
+            android:text="15$"
             android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="90sp"
+            android:textSize="50sp"
             android:id="@+id/costtxt"
             android:textColor="@color/colorAccent"
             android:layout_gravity="center_horizontal" />
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="oijoij joimni oinion"
+                    android:text="sample street"
                     android:gravity="left"
                     android:id="@+id/stxt"/>
                 <TextView
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="oijoij joimni oinion"
+                    android:text="modern school ahmed essmat street"
                     android:gravity="left"
                     android:paddingBottom="20dp"
                     android:id="@+id/dtxt"/>
@@ -96,7 +96,7 @@
             android:background="@drawable/buttonoval"
             android:textColor="#fff"
             android:padding="10dp"
-            android:text="Set Pickup Location"
+            android:text="Send Review"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:id="@+id/submitbtn" />

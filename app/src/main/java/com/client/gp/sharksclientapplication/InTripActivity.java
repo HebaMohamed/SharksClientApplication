@@ -39,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,9 +80,22 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         warningbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //testttttttttttttt warning
+                try {
+                    JSONObject o = new JSONObject();
+                    o.put("pid", 1);
+                    o.put("reason", "Unreasonable Movement");
+                    o.put("timestamp", System.currentTimeMillis());
+                    MyApplication.pubnub.publish(AppConstants.CHANNEL_WARNING, o, new Callback() {});
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });
+
+        //testttt
+        sendTestEnded();
 
         /////recive trip start
         IntentFilter filter = new IntentFilter(AppConstants.BROADCAST_TRIP_END_ACTION);
@@ -101,6 +115,16 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+    }
+
+    void sendTestEnded(){
+
+        JSONObject jso = new JSONObject();
+        try {
+            jso.put("type", "tripended");
+            MyApplication.sendNotification(jso);
+
+        } catch (JSONException e) { e.printStackTrace(); }
     }
 
 

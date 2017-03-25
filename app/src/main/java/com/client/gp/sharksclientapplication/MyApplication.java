@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.Driver;
+import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.client.gp.sharksclientapplication.myclasses.Vehicle;
 import com.google.android.gms.common.ConnectionResult;
@@ -316,6 +317,54 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////login register
+    public static void storeLogin(Passenger p) throws Exception {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(AppConstants.PROPERTY_APP_STATE, "ready");
+        editor.putInt("pid", p.id);
+        editor.putString("pgender", p.gender);
+        editor.putInt("page", p.age);
+        editor.putString("pname", p.fullName);
+        editor.putInt("pphone", p.phone);
+        editor.putInt("prelativephone", p.relative_phones);
+        editor.putString("planguage", p.language);
+        editor.putString("pemail", p.email);
+
+        editor.apply();
+    }
+    public static Passenger getLoggedPassenger() throws Exception {
+        int pid = prefs.getInt("pid", 0);
+        Passenger p;
+        if(pid != 0) {//3shn lw mfish wla passenger logged
+            String pgender = prefs.getString("pgender", "");
+            int page = prefs.getInt("page", 0);
+            String pname = prefs.getString("pname", "");
+            int pphone = prefs.getInt("pphone", 0);
+            int prelativephone = prefs.getInt("prelativephone", 0);
+            String planguage = prefs.getString("planguage", "");
+            String pemail = prefs.getString("pemail", "");
+
+            p = new Passenger(pid,"",pname,pgender,page,pphone,prelativephone,planguage,pemail);
+        }
+        else
+            p=null;
+        return p;
+    }
+    public static int getLoggedPassengerID() {
+        int did = prefs.getInt("pid", 0);
+        return did;
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////logout methods
+    public static void storelogout(){
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+
+        unregister();//3shn l notifications
+
+    }
 
 
 
