@@ -8,4 +8,7 @@ public class MyURL {
     static String hostname = "https://sharksrest.herokuapp.com/rest/passengerservice/";
     public static String login = hostname+"login/";
 
+    public static String submitpickup = hostname+"submitpickup/";
+
+
 }

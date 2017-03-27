@@ -45,11 +45,11 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".MainActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
         <!--
@@ -78,11 +78,7 @@
         <activity android:name=".DoneTripActivity" />
         <activity android:name=".TalkActivity" />
         <activity android:name=".LoginActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity"></activity>
     </application>

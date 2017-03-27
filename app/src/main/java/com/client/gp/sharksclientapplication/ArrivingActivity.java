@@ -69,7 +69,7 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
         };
         registerReceiver(receiver, filter);
 
-        sendTestStarted();//testttttttt
+        //sendTestStarted();//testttttttt
 
 
     }

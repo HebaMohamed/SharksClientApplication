@@ -95,7 +95,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         });
 
         //testttt
-        sendTestEnded();
+//        sendTestEnded();
 
         /////recive trip start
         IntentFilter filter = new IntentFilter(AppConstants.BROADCAST_TRIP_END_ACTION);

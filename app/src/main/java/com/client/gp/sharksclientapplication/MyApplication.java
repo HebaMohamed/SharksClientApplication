@@ -188,6 +188,21 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         }
     }
 
+    public static void sendNotificationToChannel(JSONObject jso, String channel) {
+        PnGcmMessage gcmMessage = new PnGcmMessage();
+        gcmMessage.setData(jso);
+        PnMessage message = new PnMessage(
+                pubnub,
+                channel,
+                callback,
+                gcmMessage);
+        try {
+            message.publish();
+        } catch (PubnubException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Callback callback = new Callback() {
         @Override
         public void successCallback(String channel, Object message) {
