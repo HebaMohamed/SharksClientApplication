@@ -108,7 +108,8 @@ public class GcmIntentService extends IntentService {
             intent.putExtra("msgflag", msgFlag);
             sendBroadcast(intent);
             //send notification
-            sendNotification(msg, "Driver Message!", new TalkActivity(),2);
+            if(msgFlag.equals("d"))
+                sendNotification(msg, "Driver Message!", new TalkActivity(),2);
         } catch (Exception e) {
             e.printStackTrace();
         }

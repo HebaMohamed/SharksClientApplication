@@ -29,6 +29,8 @@ public class Trip {
     public String details;
     public Long request_timestamp;//for request deletion
 
+    public String pickupAddress;
+
 
     public String staticmapurl;
 

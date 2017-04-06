@@ -5,17 +5,22 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
+import com.client.gp.sharksclientapplication.myclasses.LatLngInterpolator;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -73,6 +78,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 
     }
 
+    LatLng ll;int id;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -128,7 +134,6 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
-
         //listen to all vehicles moves
         try {
             MyApplication.pubnub.subscribe(AppConstants.CHANNEL_PartnersLocation, new Callback() {
@@ -157,10 +162,10 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 
                             try {
                                 JSONObject obj = (JSONObject) message;
-                                final int id = obj.getInt("did");
+                                id = obj.getInt("did");
                                 Double lat = obj.getDouble("lat");
                                 Double lng = obj.getDouble("lng");
-                                final LatLng ll = new LatLng(lat, lng);
+                                ll = new LatLng(lat, lng);
 
                                 runOnUiThread(new Runnable() { // l runnable d 3shn err IllegalStateException 3shn d async
                                     @Override
@@ -169,8 +174,10 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 
                                         int f = 0;
                                         for(int i=0; i<markers.size(); i++){
-                                            if(markers.get(i).getSnippet().equals(id)){
-                                                markers.get(i).setPosition(ll);
+                                            if(markers.get(i).getSnippet().toString().equals(String.valueOf(id))){
+                                                //markers.get(i).setPosition(ll);
+                                                //animation part
+                                                animateMarkerToGB(markers.get(i),ll);
                                                 f=1;
                                             }
                                         }
@@ -289,5 +296,42 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
 
     }
+
+
+    static void animateMarkerToGB(final Marker marker, final LatLng finalPosition) {
+        final LatLng startPosition = marker.getPosition();
+
+        ///
+//        initGMaps(mypos,finalPosition,selectedtransportModeFlag);
+        ///
+        final LatLngInterpolator latLngInterpolator = new LatLngInterpolator.Spherical();
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        final Interpolator interpolator = new AccelerateDecelerateInterpolator();
+        final float durationInMs = 3000;
+
+        handler.post(new Runnable() {
+            long elapsed;
+            float t;
+            float v;
+
+            @Override
+            public void run() {
+                // Calculate progress using interpolator
+                elapsed = SystemClock.uptimeMillis() - start;
+                t = elapsed / durationInMs;
+                v = interpolator.getInterpolation(t);
+
+                marker.setPosition(latLngInterpolator.interpolate(v, startPosition, finalPosition));
+
+                // Repeat till progress is complete.
+                if (t < 1) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                }
+            }
+        });
+    }
+
 
 }

@@ -105,6 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:hint="Comment"
+            android:id="@+id/commentxt"
             android:layout_above="@+id/submitbtn"
             android:layout_centerHorizontal="true" />
 

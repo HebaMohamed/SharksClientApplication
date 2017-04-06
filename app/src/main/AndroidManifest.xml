@@ -77,10 +77,10 @@
             android:label="@string/title_activity_in_trip" />
         <activity android:name=".DoneTripActivity" />
         <activity android:name=".TalkActivity" />
-        <activity android:name=".LoginActivity" >
-
-        </activity>
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".LastTripsActivity" />
+        <activity android:name=".LastTripDetailsActivity"></activity>
     </application>
 
 </manifest>

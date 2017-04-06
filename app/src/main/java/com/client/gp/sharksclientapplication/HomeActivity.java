@@ -33,5 +33,19 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        historybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, LastTripsActivity.class));
+            }
+        });
+
+        settingsbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyApplication.storelogout();
+            }
+        });
+
     }
 }
