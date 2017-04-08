@@ -23,8 +23,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.MyURL;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
+import com.client.gp.sharksclientapplication.myclasses.Vehicle;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -49,6 +51,7 @@ public class SubmitRequestActivity extends AppCompatActivity {
 
     Location selectedLoc;
     int distinM, durationinS;
+    double costinM;
 
     Location pickup;
 
@@ -92,8 +95,8 @@ public class SubmitRequestActivity extends AppCompatActivity {
                     destination.setLongitude(place.getLatLng().longitude);
                     getDistanceDuration(selectedLoc, destination);
                     //testttt get estimated cost by distinM and durationinS
-                    double cost = 44.5;
-                    costtxt.setText(cost+"$");
+//                    double cost = 44.5;
+//                    costtxt.setText(cost+"$");
 
                 }
                 @Override
@@ -159,7 +162,8 @@ public class SubmitRequestActivity extends AppCompatActivity {
                     distinM=distOb.getInt("value");
                     durationinS=timeOb.getInt("value");
 
-
+                    costinM=(4/1000)*distinM;
+                    costtxt.setText(costinM+"$");
 
 
                 } catch (Exception e) {
@@ -219,12 +223,21 @@ public class SubmitRequestActivity extends AppCompatActivity {
                         int driver_id = driver.getInt("driver_id");
                         String fullname = driver.getString("fullname");
 
+                        JSONObject vehicle = obj.getJSONObject("vehicle");
+                        int vehicle_id = vehicle.getInt("vehicle_id");
+                        String model = vehicle.getString("model");
+                        String color = vehicle.getString("color");
+                        String plate_number = vehicle.getString("plate_number");
+
+                        Driver d = new Driver(driver_id,fullname,"","");
+                        d.vehicle=new Vehicle(vehicle_id,model,color,plate_number);
+
                         int tripid = obj.getInt("tripid");
 
-                        MyApplication.setSentState(pickup,tripid);
-                        sendDriverNotification(driver_id,tripid,details);
+                        MyApplication.setSentState(pickup,tripid,d);
+//                        sendDriverNotification(driver_id,tripid,details);
                         startActivity(new Intent(SubmitRequestActivity.this, WaitActivity.class));
-                        finish();
+                        //finish();
                     }
                     else {
                         Toast.makeText(SubmitRequestActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -281,21 +294,21 @@ public class SubmitRequestActivity extends AppCompatActivity {
 
     }
 
-    void sendDriverNotification(int driverid, int tripid, String details){
-        JSONObject jso = new JSONObject();
-        try {
-            jso.put("type", "triprequest");
-            jso.put("tripid", tripid);
-            jso.put("lat", selectedLoc.getLatitude());
-            jso.put("lng", selectedLoc.getLongitude());
-            jso.put("details",details);
-            jso.put("timestamp", System.currentTimeMillis());
-            jso.put("passengerid", MyApplication.getLoggedPassengerID());
-
-
-            MyApplication.sendNotificationToChannel(jso,"driver"+driverid);
-
-        } catch (JSONException e) { e.printStackTrace(); }
-    }
+//    void sendDriverNotification(int driverid, int tripid, String details){
+//        JSONObject jso = new JSONObject();
+//        try {
+//            jso.put("type", "triprequest");
+//            jso.put("tripid", tripid);
+//            jso.put("lat", selectedLoc.getLatitude());
+//            jso.put("lng", selectedLoc.getLongitude());
+//            jso.put("details",details);
+//            jso.put("timestamp", System.currentTimeMillis());
+//            jso.put("passengerid", MyApplication.getLoggedPassengerID());
+//
+//
+//            MyApplication.sendNotificationToChannel(jso,"driver"+driverid);
+//
+//        } catch (JSONException e) { e.printStackTrace(); }
+//    }
 
 }

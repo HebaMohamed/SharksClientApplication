@@ -19,9 +19,14 @@ import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.client.gp.sharksclientapplication.myclasses.Vehicle;
+import com.client.gp.sharksclientapplication.myservices.MyFirebaseInstanceIDService;
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.pubnub.api.Callback;
 import com.pubnub.api.PnGcmMessage;
 import com.pubnub.api.PnMessage;
@@ -51,6 +56,8 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
     private static String regId;
     private static GoogleCloudMessaging gcm;
 
+    public static Firebase myFirebaseRef;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -59,9 +66,26 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         MyApplication.mycontext=getApplicationContext();//
         prefs = PreferenceManager.getDefaultSharedPreferences(this);//("mypref", Context.MODE_PRIVATE);
 
-        pubnub = new Pubnub( AppConstants.PUB_PUBLISH_KEY, AppConstants.PUB_SUBSCRIBE_KEY);
+//        pubnub = new Pubnub( AppConstants.PUB_PUBLISH_KEY, AppConstants.PUB_SUBSCRIBE_KEY);
 
-        register();//for gcm services
+//        register();//for gcm services
+
+        //for firebase
+        Firebase.setAndroidContext(getApplicationContext());
+        if(myFirebaseRef==null)
+            myFirebaseRef = new Firebase(AppConstants.FIREBASE_DB);
+
+        try {
+            FirebaseApp.getInstance();
+        } catch (IllegalStateException ex) {
+            FirebaseApp.initializeApp(mycontext, FirebaseOptions.fromResource(mycontext));
+        }
+
+
+//        String firebasetoken = FirebaseInstanceId.getInstance().getToken();
+////        MyFirebaseInstanceIDService.sendRegistrationToServer(firebasetoken);
+//        if(firebasetoken!=null)
+//            Log.d("token: ",firebasetoken);
     }
     public static Context getAppContext() {
         return MyApplication.mycontext;
@@ -236,17 +260,13 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         return appstate;
     }
 
-    public static void setSentState(Location pickup, int tripid) {
+    public static void setSentState(Location pickup, int tripid, Driver d) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(AppConstants.PROPERTY_APP_STATE, "requestsent");
         editor.putInt("tripid", tripid);
         editor.putString("pickuplat", String.valueOf(pickup.getLatitude()));
         editor.putString("pickuplng", String.valueOf(pickup.getLongitude()));
-        editor.apply();
-    }
-    public static void setArrivingState(Driver d) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(AppConstants.PROPERTY_APP_STATE, "arriving");
+
         editor.putInt("did", d.id);
         editor.putString("dname", d.name);
         editor.putString("dimg", d.image);
@@ -254,6 +274,19 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         editor.putString("vmodel", d.vehicle.model);
         editor.putString("vcolor", d.vehicle.color);
         editor.putString("vplatenumber", d.vehicle.plate_number);
+
+        editor.apply();
+    }
+    public static void setArrivingState() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(AppConstants.PROPERTY_APP_STATE, "arriving");
+//        editor.putInt("did", d.id);
+//        editor.putString("dname", d.name);
+//        editor.putString("dimg", d.image);
+//        editor.putInt("vid", d.vehicle.id);
+//        editor.putString("vmodel", d.vehicle.model);
+//        editor.putString("vcolor", d.vehicle.color);
+//        editor.putString("vplatenumber", d.vehicle.plate_number);
         editor.apply();
     }
     public static void setInTripState(double destlat, double destlng) {

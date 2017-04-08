@@ -69,11 +69,11 @@ public class GcmIntentService extends IntentService {
     public void goRequestResponse(int tripid, int driverid) {
         try {
             //testttt send request to get driver details associated with vehicle details
-            Driver d = new Driver(1,"Ahmed","","");
-            d.vehicle=new Vehicle(1,"hyundai verna","Red","123ABC");
-
-            //save request for activity use
-            MyApplication.setArrivingState(d);
+//            Driver d = new Driver(1,"Ahmed","","");
+//            d.vehicle=new Vehicle(1,"hyundai verna","Red","123ABC");
+//
+//            //save request for activity use
+//            MyApplication.setArrivingState(d);
 
             sendNotification("be ready! and tap for more details", "Trip Accepted !", new MainActivity(),1);
 

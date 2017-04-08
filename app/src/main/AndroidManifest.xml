@@ -19,7 +19,9 @@
         android:name="com.sharks.gp.sharkspassengerapplication.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.sharks.gp.sharkspassengerapplication.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.sharks.gp.sharkspassengerapplication.permission.C2D_MESSAGE" /><!--edit-->
+
+    <uses-permission android:name="com.client.gp.sharksclientapplication.permission.RECEIVE" />
 
     <application
         android:name=".MyApplication"
@@ -28,17 +30,31 @@
         android:label="Sharks Passenger"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver
-            android:name=".myservices.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <!--<receiver-->
+            <!--android:name=".myservices.GcmBroadcastReceiver"-->
+            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+
+                <!--<category android:name="com.sharks.gp.sharkspassengerapplication" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
+        <!--<service android:name=".myservices.GcmIntentService" />-->
+
+        <service
+            android:name=".myservices.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-                <category android:name="com.sharks.gp.sharkspassengerapplication" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </receiver>
-
-        <service android:name=".myservices.GcmIntentService" />
+        </service>
+        <service android:name=".myservices.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCEID_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.google.android.gms.version"

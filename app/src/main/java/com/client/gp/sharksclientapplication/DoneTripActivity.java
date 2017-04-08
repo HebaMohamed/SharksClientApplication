@@ -46,19 +46,13 @@ public class DoneTripActivity extends AppCompatActivity {
         costtxt=(TextView)findViewById(R.id.costtxt);
         stxt=(TextView)findViewById(R.id.stxt);
         dtxt=(TextView)findViewById(R.id.dtxt);
-
         ratingBar=(RatingBar) findViewById(R.id.ratingBar);
-
         commentxt=(EditText) findViewById(R.id.commentxt);
-
         submitbtn=(Button)findViewById(R.id.submitbtn);
-
         setuploading();
-
         currentTrip=MyApplication.getPickupTrip();
 
         MyApplication.setReadyState();
-
 
         submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override

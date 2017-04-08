@@ -21,6 +21,9 @@ import android.widget.Toast;
 
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.LatLngInterpolator;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -34,9 +37,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pubnub.api.Callback;
-import com.pubnub.api.PubnubError;
-import com.pubnub.api.PubnubException;
 
 import org.json.JSONObject;
 
@@ -78,7 +78,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 
     }
 
-    LatLng ll;int id;
+    LatLng ll;//int id;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -134,78 +134,122 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
+        int x = 0;
+
         //listen to all vehicles moves
-        try {
-            MyApplication.pubnub.subscribe(AppConstants.CHANNEL_PartnersLocation, new Callback() {
-                        @Override
-                        public void connectCallback(String channel, Object message) {
-//                            pubnub.publish("my_channel", "Hello from the PubNub Java SDK", new Callback() {});
-                        }
 
-                        @Override
-                        public void disconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
+        String g = MyApplication.myFirebaseRef.child("trips").child("1").child("status").getKey();
 
-                        public void reconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
 
-                        @Override
-                        public void successCallback(String channel, Object message) { //l msg bttst2bl hna
-                            System.out.println("SUBSCRIBE : " + channel + " : "
-                                    + message.getClass() + " : " + message.toString());
+        //listen & get initial value
+        MyApplication.myFirebaseRef.child(AppConstants.FIRE_VEHICLES).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            try {
-                                JSONObject obj = (JSONObject) message;
-                                id = obj.getInt("did");
-                                Double lat = obj.getDouble("lat");
-                                Double lng = obj.getDouble("lng");
-                                ll = new LatLng(lat, lng);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String vid = postSnapshot.getKey();
+                    double lat = postSnapshot.child("lat").getValue(Double.class);
+                    double lng = postSnapshot.child("lng").getValue(Double.class);
 
-                                runOnUiThread(new Runnable() { // l runnable d 3shn err IllegalStateException 3shn d async
-                                    @Override
-                                    public void run() {
-                                        // Your code to run in GUI thread here
-
-                                        int f = 0;
-                                        for(int i=0; i<markers.size(); i++){
-                                            if(markers.get(i).getSnippet().toString().equals(String.valueOf(id))){
-                                                //markers.get(i).setPosition(ll);
-                                                //animation part
-                                                animateMarkerToGB(markers.get(i),ll);
-                                                f=1;
-                                            }
-                                        }
-                                        if(f==0) {
-                                            markers.add(mMap.addMarker(new MarkerOptions()
-                                                    .position(ll)
-                                                    .title("Shark Location")
-                                                    .snippet(String.valueOf(id))
-                                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
-                                        }
-                                    }
-                                });
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void errorCallback(String channel, PubnubError error) {
-                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
-                                    + " : " + error.toString());
+                    ll = new LatLng(lat, lng);
+                    int f = 0;
+                    for(int i=0; i<markers.size(); i++){
+                        if(markers.get(i).getSnippet().toString().equals(String.valueOf(vid))){
+                            //markers.get(i).setPosition(ll);
+                            // animation part
+                            animateMarkerToGB(markers.get(i),ll);
+                            f=1;
                         }
                     }
-            );
-        } catch (PubnubException e) {
-            System.out.println(e.toString());
-        }
+                    if(f==0) {
+                        markers.add(mMap.addMarker(new MarkerOptions()
+                                .position(ll)
+                                .title("Shark Location")
+                                .snippet(String.valueOf(vid))
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+        x=1;
+//        try {
+//            MyApplication.pubnub.subscribe(AppConstants.CHANNEL_PartnersLocation, new Callback() {
+//                        @Override
+//                        public void connectCallback(String channel, Object message) {
+////                            pubnub.publish("my_channel", "Hello from the PubNub Java SDK", new Callback() {});
+//                        }
+//
+//                        @Override
+//                        public void disconnectCallback(String channel, Object message) {
+//                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        public void reconnectCallback(String channel, Object message) {
+//                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
+//                                    + " : " + message.getClass() + " : "
+//                                    + message.toString());
+//                        }
+//
+//                        @Override
+//                        public void successCallback(String channel, Object message) { //l msg bttst2bl hna
+//                            System.out.println("SUBSCRIBE : " + channel + " : "
+//                                    + message.getClass() + " : " + message.toString());
+//
+//                            try {
+//                                JSONObject obj = (JSONObject) message;
+//                                id = obj.getInt("did");
+//                                Double lat = obj.getDouble("lat");
+//                                Double lng = obj.getDouble("lng");
+//                                ll = new LatLng(lat, lng);
+//
+//                                runOnUiThread(new Runnable() { // l runnable d 3shn err IllegalStateException 3shn d async
+//                                    @Override
+//                                    public void run() {
+//                                        // Your code to run in GUI thread here
+//
+//                                        int f = 0;
+//                                        for(int i=0; i<markers.size(); i++){
+//                                            if(markers.get(i).getSnippet().toString().equals(String.valueOf(id))){
+//                                                //markers.get(i).setPosition(ll);
+//                                                //animation part
+//                                                animateMarkerToGB(markers.get(i),ll);
+//                                                f=1;
+//                                            }
+//                                        }
+//                                        if(f==0) {
+//                                            markers.add(mMap.addMarker(new MarkerOptions()
+//                                                    .position(ll)
+//                                                    .title("Shark Location")
+//                                                    .snippet(String.valueOf(id))
+//                                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
+//                                        }
+//                                    }
+//                                });
+//
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void errorCallback(String channel, PubnubError error) {
+//                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
+//                                    + " : " + error.toString());
+//                        }
+//                    }
+//            );
+//        } catch (PubnubException e) {
+//            System.out.println(e.toString());
+//        }
 
 
 
