@@ -260,7 +260,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         return appstate;
     }
 
-    public static void setSentState(Location pickup, int tripid, Driver d) {
+    public static void setSentState(Location pickup, int tripid, Driver d, long senttimestamp) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(AppConstants.PROPERTY_APP_STATE, "requestsent");
         editor.putInt("tripid", tripid);
@@ -274,6 +274,9 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         editor.putString("vmodel", d.vehicle.model);
         editor.putString("vcolor", d.vehicle.color);
         editor.putString("vplatenumber", d.vehicle.plate_number);
+
+        editor.putLong("senttimestamp", senttimestamp);
+
 
         editor.apply();
     }
@@ -330,6 +333,8 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         double destlat = Double.parseDouble(prefs.getString("destlat", "0"));
         double destlng = Double.parseDouble(prefs.getString("destlng", "0"));
 
+        Long senttimestamp = prefs.getLong("senttimestamp",0);
+
         Location loc = new Location("");
         loc.setLatitude(pickuplat);
         loc.setLongitude(pickuplng);
@@ -339,6 +344,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         des.setLongitude(destlng);
 
         Trip t = new Trip(tripid);
+        t.request_timestamp=senttimestamp;
         t.pickup=loc;
         t.destination=des;
         return t;

@@ -147,26 +147,30 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String vid = postSnapshot.getKey();
-                    double lat = postSnapshot.child("lat").getValue(Double.class);
-                    double lng = postSnapshot.child("lng").getValue(Double.class);
+                    try {
+                        String vid = postSnapshot.getKey();
+                        double lat = postSnapshot.child("lat").getValue(Double.class);
+                        double lng = postSnapshot.child("lng").getValue(Double.class);
 
-                    ll = new LatLng(lat, lng);
-                    int f = 0;
-                    for(int i=0; i<markers.size(); i++){
-                        if(markers.get(i).getSnippet().toString().equals(String.valueOf(vid))){
-                            //markers.get(i).setPosition(ll);
-                            // animation part
-                            animateMarkerToGB(markers.get(i),ll);
-                            f=1;
+                        ll = new LatLng(lat, lng);
+                        int f = 0;
+                        for (int i = 0; i < markers.size(); i++) {
+                            if (markers.get(i).getSnippet().toString().equals(String.valueOf(vid))) {
+                                //markers.get(i).setPosition(ll);
+                                // animation part
+                                animateMarkerToGB(markers.get(i), ll);
+                                f = 1;
+                            }
                         }
-                    }
-                    if(f==0) {
-                        markers.add(mMap.addMarker(new MarkerOptions()
-                                .position(ll)
-                                .title("Shark Location")
-                                .snippet(String.valueOf(vid))
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
+                        if (f == 0) {
+                            markers.add(mMap.addMarker(new MarkerOptions()
+                                    .position(ll)
+                                    .title("Shark Location")
+                                    .snippet(String.valueOf(vid))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
+                        }
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();//3shn momkn fl test yb2a fy node msh feha lat msln
                     }
                 }
             }

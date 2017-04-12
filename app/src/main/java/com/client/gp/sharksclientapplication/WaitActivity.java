@@ -26,6 +26,10 @@ import com.pubnub.api.PubnubException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+
 public class WaitActivity extends AppCompatActivity {
 
     Trip trip;
@@ -54,18 +58,22 @@ public class WaitActivity extends AppCompatActivity {
         MyApplication.myFirebaseRef.child(AppConstants.FIRE_TRIPS).child(String.valueOf(trip.trip_ID)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String status = dataSnapshot.child("status").getValue(String.class);
+                try {
+                    String status = dataSnapshot.child("status").getValue(String.class);
 
-                if(status.equals("approved")) {
+                    if (status.equals("approved")) {
 
-                    //save request for activity use
-                    MyApplication.setArrivingState();
-                    startActivity(new Intent(WaitActivity.this, ArrivingActivity.class));
-                    finish();
-                }
-                else if(status.equals("ignored")) {
-                    Toast.makeText(WaitActivity.this, "The nearest driver ignored trip please try again", Toast.LENGTH_LONG).show();
-                    finish();
+                        //save request for activity use
+                        MyApplication.setArrivingState();
+                        startActivity(new Intent(WaitActivity.this, ArrivingActivity.class));
+                        finish();
+                    } else if (status.equals("ignored")) {
+                        Toast.makeText(WaitActivity.this, "The nearest driver ignored trip please try again", Toast.LENGTH_LONG).show();
+//                    startActivity(new Intent(WaitActivity.this, PickupMapActivity.class));
+                        finish();
+                    }
+                }catch(NullPointerException ne){
+                    ne.printStackTrace();
                 }
 
             }
@@ -76,6 +84,27 @@ public class WaitActivity extends AppCompatActivity {
             }
 
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+
+        Calendar date = Calendar.getInstance();
+        long t= date.getTimeInMillis();
+        Date date1=new Date(t + (1 * ONE_MINUTE_IN_MILLIS));//afterAddingMins
+        long newts = t + (1 * ONE_MINUTE_IN_MILLIS);
+
+        Timestamp stamp2 = new Timestamp(trip.request_timestamp);
+        Date date2 = new Date(stamp2.getTime());
+
+//        if (date1.after(date2)){
+        if(newts>trip.request_timestamp){
+            //MyApplication.myFirebaseRef.child("trips").child(String.valueOf(trip.trip_ID)).child("status").setValue("ignored");
+        }
 
     }
 

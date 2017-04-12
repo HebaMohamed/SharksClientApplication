@@ -27,9 +27,13 @@ import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.MyURL;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.client.gp.sharksclientapplication.myclasses.Vehicle;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.firebase.database.DatabaseError;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,7 +120,9 @@ public class SubmitRequestActivity extends AppCompatActivity {
 //
 //                    startActivity(new Intent(SubmitRequestActivity.this, WaitActivity.class));
 //                    finish();
-                    sendsubmit(selectedLoc, adddetailstxt.getText().toString());
+                    sentflag=0;
+                    getTheNearest(selectedLoc);
+//                    sendsubmit(selectedLoc, adddetailstxt.getText().toString());
                 }
             });
 
@@ -127,6 +133,73 @@ public class SubmitRequestActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    int sentflag = 0;//3shn msh m3 kl change yb3t tany
+
+    int min_id;
+    double min_distance;
+    void getTheNearest(final Location lc){
+        min_id = 0;
+        min_distance = 0;
+        progress.show();
+
+
+        MyApplication.myFirebaseRef.child("vehicles").addValueEventListener(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                try {
+                    Location loc1 = new Location("");
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        try{
+                            int vid = Integer.parseInt(postSnapshot.getKey());
+                            double lat = postSnapshot.child("lat").getValue(Double.class);
+                            double lng = postSnapshot.child("lng").getValue(Double.class);
+                            int status = postSnapshot.child("status").getValue(Integer.class);
+
+                            if(status==0){
+                                loc1.setLatitude(lat);
+                                loc1.setLongitude(lng);
+
+                                double dist = loc1.distanceTo(lc);
+                                if(min_id==0){//first time only
+                                    min_id = vid;
+                                    min_distance = dist;
+                                }else{
+                                    if(min_distance>dist){
+                                        min_id = vid;
+                                        min_distance = dist;
+                                    }
+                                }
+                            }
+                        }catch(NullPointerException ne){
+                            ne.printStackTrace();
+                        }catch(NumberFormatException ne){
+                            ne.printStackTrace();
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////////////////////////
+
+                    if(sentflag==0) {
+                        sendsubmit(selectedLoc, adddetailstxt.getText().toString(),min_id);
+                        sentflag=1;
+                    }
+
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+            @Override
+            public void onCancelled(FirebaseError databaseError) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });
     }
 
 
@@ -194,14 +267,15 @@ public class SubmitRequestActivity extends AppCompatActivity {
         progress.setCanceledOnTouchOutside(false);
     }
 
-    void sendsubmit(Location lc, final String details){
-        progress.show();
+    void sendsubmit(Location lc, final String details, int minvid){
+//        progress.show();
         JSONObject toobj = new JSONObject();
         try {
             toobj.put("lat",lc.getLatitude());
             toobj.put("lng",lc.getLongitude());
             toobj.put("details",details);
             toobj.put("passengerid",MyApplication.getLoggedPassengerID());
+            toobj.put("vid",minvid);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -234,7 +308,9 @@ public class SubmitRequestActivity extends AppCompatActivity {
 
                         int tripid = obj.getInt("tripid");
 
-                        MyApplication.setSentState(pickup,tripid,d);
+                        long nwtimestamp = System.currentTimeMillis();
+
+                        MyApplication.setSentState(pickup,tripid,d,nwtimestamp);
 //                        sendDriverNotification(driver_id,tripid,details);
                         startActivity(new Intent(SubmitRequestActivity.this, WaitActivity.class));
                         //finish();
@@ -287,7 +363,12 @@ public class SubmitRequestActivity extends AppCompatActivity {
             }
         };
 
-        sr.setRetryPolicy(new DefaultRetryPolicy( 100000, 10, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //sr.setRetryPolicy(new DefaultRetryPolicy( 100000, 10, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        int MY_SOCKET_TIMEOUT_MS = 120000;
+        sr.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Add the request to the queue
         Volley.newRequestQueue(this).add(sr);

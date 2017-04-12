@@ -23,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
             if(p!=null) {
                 String appstate = MyApplication.getAppState();
                 if(appstate.equals("requestsent")){
-                    startActivity(new Intent(MainActivity.this, WaitActivity.class));
+//                    startActivity(new Intent(MainActivity.this, WaitActivity.class));
+//                    finish();
+                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
                     finish();
                 } else if(appstate.equals("arriving")){
                     startActivity(new Intent(MainActivity.this, ArrivingActivity.class));
