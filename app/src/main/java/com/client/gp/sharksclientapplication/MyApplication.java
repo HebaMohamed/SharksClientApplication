@@ -50,11 +50,11 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
     private static MyApplication mInstance;
     public static SharedPreferences prefs;
     private static Context mycontext;
-    public static Pubnub pubnub;
+//    public static Pubnub pubnub;
 
 
     private static String regId;
-    private static GoogleCloudMessaging gcm;
+//    private static GoogleCloudMessaging gcm;
 
     public static Firebase myFirebaseRef;
 
@@ -81,11 +81,12 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
             FirebaseApp.initializeApp(mycontext, FirebaseOptions.fromResource(mycontext));
         }
 
-
-//        String firebasetoken = FirebaseInstanceId.getInstance().getToken();
-////        MyFirebaseInstanceIDService.sendRegistrationToServer(firebasetoken);
-//        if(firebasetoken!=null)
-//            Log.d("token: ",firebasetoken);
+        String firebasetoken = FirebaseInstanceId.getInstance().getToken();
+        int did = MyApplication.getLoggedPassengerID();
+        if(did!=0)
+            MyFirebaseInstanceIDService.sendRegistrationToServer(firebasetoken,did);
+        if(firebasetoken!=null)
+            Log.d("token: ",firebasetoken);
     }
     public static Context getAppContext() {
         return MyApplication.mycontext;
@@ -96,60 +97,60 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
 
 
     ///////////////////////////////////////////////////////////////////////////////login methods
-    private void register() {
-        if (checkPlayServices()) {
-            gcm = GoogleCloudMessaging.getInstance(this);
-            try {
-                regId = getRegistrationId(getApplicationContext());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (regId.isEmpty()) {
-                registerInBackground();
-            } else {
-//                Toast.makeText(getAppContext(), "Registration ID already exists:" + regId, Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Log.e(TAG, "No valid Google Play Services APK found.");
-        }
-    }
-    private String getRegistrationId(Context context) throws Exception {
-        String registrationId = prefs.getString(AppConstants.PROPERTY_REG_ID, "");
-        if (registrationId.isEmpty()) {
-            return "";
-        }
-        return registrationId;
-    }
-    private void sendRegistrationId(String regId) {
-        pubnub.enablePushNotificationsOnChannel(
-                AppConstants.CHANNEL_NOTIFY,
-                regId);
-    }
-    private void registerInBackground() {
-        new AsyncTask() {
-            @Override
-            protected String doInBackground(Object[] params) {
-                String msg;
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-                    }
-                    regId = gcm.register(AppConstants.SENDER_ID);
-                    msg = "Device registered, registration ID: " + regId;
-
-                    sendRegistrationId(regId);
-
-                    storeRegistrationId(getApplicationContext(), regId);
-                    Log.i(TAG, msg);
-                } catch (Exception ex) {
-                    msg = "Error :" + ex.getMessage();
-                    Log.e(TAG, msg);
-                }
-                return msg;
-            }
-        }.execute(null, null, null);
-    }
+//    private void register() {
+//        if (checkPlayServices()) {
+//            gcm = GoogleCloudMessaging.getInstance(this);
+//            try {
+//                regId = getRegistrationId(getApplicationContext());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (regId.isEmpty()) {
+//                registerInBackground();
+//            } else {
+////                Toast.makeText(getAppContext(), "Registration ID already exists:" + regId, Toast.LENGTH_SHORT).show();
+//            }
+//        } else {
+//            Log.e(TAG, "No valid Google Play Services APK found.");
+//        }
+//    }
+//    private String getRegistrationId(Context context) throws Exception {
+//        String registrationId = prefs.getString(AppConstants.PROPERTY_REG_ID, "");
+//        if (registrationId.isEmpty()) {
+//            return "";
+//        }
+//        return registrationId;
+//    }
+//    private void sendRegistrationId(String regId) {
+//        pubnub.enablePushNotificationsOnChannel(
+//                AppConstants.CHANNEL_NOTIFY,
+//                regId);
+//    }
+//    private void registerInBackground() {
+//        new AsyncTask() {
+//            @Override
+//            protected String doInBackground(Object[] params) {
+//                String msg;
+//                try {
+//                    if (gcm == null) {
+//                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+//                    }
+//                    regId = gcm.register(AppConstants.SENDER_ID);
+//                    msg = "Device registered, registration ID: " + regId;
+//
+//                    sendRegistrationId(regId);
+//
+//                    storeRegistrationId(getApplicationContext(), regId);
+//                    Log.i(TAG, msg);
+//                } catch (Exception ex) {
+//                    msg = "Error :" + ex.getMessage();
+//                    Log.e(TAG, msg);
+//                }
+//                return msg;
+//            }
+//        }.execute(null, null, null);
+//    }
     private void storeRegistrationId(Context context, String regId) throws Exception {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(AppConstants.PROPERTY_REG_ID, regId);
@@ -170,25 +171,25 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
     }
 
     ///////////////////////////////////////////////////////////////////////////////logout methods
-    private static void unregister() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(MyApplication.getAppContext());
-                    }
-                    // Unregister from GCM
-                    gcm.unregister();
-                    // Remove Registration ID from memory
-                    removeRegistrationId(MyApplication.getAppContext());
-                    // Disable Push Notification
-                    pubnub.disablePushNotificationsOnChannel(AppConstants.CHANNEL_NOTIFY, regId);
-                } catch (Exception e) { e.printStackTrace(); }
-                return null;
-            }
-        }.execute(null, null, null);
-    }
+//    private static void unregister() {
+//        new AsyncTask() {
+//            @Override
+//            protected Object doInBackground(Object[] params) {
+//                try {
+//                    if (gcm == null) {
+//                        gcm = GoogleCloudMessaging.getInstance(MyApplication.getAppContext());
+//                    }
+//                    // Unregister from GCM
+//                    gcm.unregister();
+//                    // Remove Registration ID from memory
+//                    removeRegistrationId(MyApplication.getAppContext());
+//                    // Disable Push Notification
+//                    pubnub.disablePushNotificationsOnChannel(AppConstants.CHANNEL_NOTIFY, regId);
+//                } catch (Exception e) { e.printStackTrace(); }
+//                return null;
+//            }
+//        }.execute(null, null, null);
+//    }
     private static void removeRegistrationId(Context context) throws Exception {
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(AppConstants.PROPERTY_REG_ID);
@@ -197,35 +198,35 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
 
 
 
-    public static void sendNotification(JSONObject jso) {
-        PnGcmMessage gcmMessage = new PnGcmMessage();
-        gcmMessage.setData(jso);
-        PnMessage message = new PnMessage(
-                pubnub,
-                AppConstants.CHANNEL_NOTIFY,
-                callback,
-                gcmMessage);
-        try {
-            message.publish();
-        } catch (PubnubException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void sendNotification(JSONObject jso) {
+//        PnGcmMessage gcmMessage = new PnGcmMessage();
+//        gcmMessage.setData(jso);
+//        PnMessage message = new PnMessage(
+//                pubnub,
+//                AppConstants.CHANNEL_NOTIFY,
+//                callback,
+//                gcmMessage);
+//        try {
+//            message.publish();
+//        } catch (PubnubException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public static void sendNotificationToChannel(JSONObject jso, String channel) {
-        PnGcmMessage gcmMessage = new PnGcmMessage();
-        gcmMessage.setData(jso);
-        PnMessage message = new PnMessage(
-                pubnub,
-                channel,
-                callback,
-                gcmMessage);
-        try {
-            message.publish();
-        } catch (PubnubException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void sendNotificationToChannel(JSONObject jso, String channel) {
+//        PnGcmMessage gcmMessage = new PnGcmMessage();
+//        gcmMessage.setData(jso);
+//        PnMessage message = new PnMessage(
+//                pubnub,
+//                channel,
+//                callback,
+//                gcmMessage);
+//        try {
+//            message.publish();
+//        } catch (PubnubException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static Callback callback = new Callback() {
         @Override
@@ -248,7 +249,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
             addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             String approxAddress = addresses.get(0).getAddressLine(0);
             return approxAddress;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return"Unknown Address";
         }
@@ -426,7 +427,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         editor.clear();
         editor.apply();
 
-        unregister();//3shn l notifications
+        //unregister();//3shn l notifications
 
     }
 

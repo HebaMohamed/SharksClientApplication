@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
+import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.MyURL;
 import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -122,36 +124,80 @@ public class LastTripDetailsActivity extends AppCompatActivity {
                     if (success == 1) {
                         JSONObject trip=obj.getJSONObject("trip");
                         JSONArray pathway=trip.getJSONArray("pathway");
-                        JSONObject pickupobj = pathway.getJSONObject(0);
-                        JSONObject destinationobj=pathway.getJSONObject(pathway.length()-1);
+//                        JSONObject pickupobj = pathway.getJSONObject(0);
+//                        JSONObject destinationobj=pathway.getJSONObject(pathway.length()-1);
 
                         Trip t =new Trip(selectedTripID);
-                        t.start_Date= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(trip.getString("start"));
-                        t.end_Date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(trip.getString("end"));;
+//                        t.start_Date= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(trip.getString("start"));
+//                        t.end_Date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(trip.getString("end"));;
+                        t.start_Date= new Date(trip.getLong("start"));//fr.parse(fr.format(new Date(object.getLong("start"))));//.parse bytl3 date lkn format bytl3 string
+                        t.end_Date = new Date(trip.getLong("end"));//new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(object.getString("end"));;
                         t.price = new Double(trip.getDouble("price"));
                         t.comment=new String(trip.getString("comment"));
                         t.rating = new Double(trip.getDouble("ratting"));
-                        t.p = new Passenger(trip.getInt("passenger_id"));
-//                        t.d =new Driver(trip.getInt("driver_id"));
-                        t.destination.setLatitude(destinationobj.getDouble("lat"));
-                        t.destination.setLongitude(destinationobj.getDouble("lng"));
-                        t.pickup.setLatitude(pickupobj.getDouble("lat"));
-                        t.pickup.setLongitude(pickupobj.getDouble("lng"));
+                        t.d = new Driver(trip.getInt("driver_id"));
+                        t.d.name = trip.getString("driver_name");
+////                        t.d =new Driver(trip.getInt("driver_id"));
+//                        t.destination.setLatitude(destinationobj.getDouble("lat"));
+//                        t.destination.setLongitude(destinationobj.getDouble("lng"));
+//                        t.pickup.setLatitude(pickupobj.getDouble("lat"));
+//                        t.pickup.setLongitude(pickupobj.getDouble("lng"));
 
-                        passengername.setText(t.p.fullName);
+                        if(pathway.length()>0) {
+                            JSONObject pickupobj = pathway.getJSONObject(0);
+                            JSONObject destinationobj;
+                            if(pathway.length()>1) {
+                                destinationobj = pathway.getJSONObject(pathway.length() - 1);
+
+                                //set map img
+                                for (int j = 0; j<pathway.length(); j++){
+                                    Location tl = new Location("");
+                                    tl.setLatitude(pathway.getJSONObject(j).getDouble("lat"));
+                                    tl.setLongitude(pathway.getJSONObject(j).getDouble("lng"));
+                                    pathwayLocs.add(tl);
+                                }
+                                String locurl = getpathwaymap();
+                                URL url = new URL(locurl);
+                                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                mapimg.setImageBitmap(bmp);
+                            }
+                            else
+                                destinationobj=pickupobj;
+
+
+                            t.destination.setLatitude(destinationobj.getDouble("lat"));
+                            t.destination.setLongitude(destinationobj.getDouble("lng"));
+                            t.pickup.setLatitude(pickupobj.getDouble("lat"));
+                            t.pickup.setLongitude(pickupobj.getDouble("lng"));
+                            t.pickupAddress=MyApplication.getLocationAddress(t.destination);
+
+
+                            //to display map on the same location
+                            pathwayLocs.add(t.pickup);
+                            String locurl = getpathwaymap();
+                            URL url = new URL(locurl);
+                            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            mapimg.setImageBitmap(bmp);
+
+
+                        }
+                        else
+                            t.pickupAddress="Not Moved";
+
+                        passengername.setText(t.d.name);
                         pickuploctxt.setText(MyApplication.getLocationAddress(t.pickup));
                         dropoffloctxt.setText(MyApplication.getLocationAddress(t.destination));
                         starttxt.setText(t.getStartdate());
                         endtxt.setText(t.getEnddate());
-                        tripratetxt.setText(t.rating + " Stars");
+//                        tripratetxt.setText(t.rating + " Stars");
                         costtxt.setText(t.price + " $");
                         distancetxt.setText(getDistance() + "Km");
                         durationtxt.setText(getDuration(t));
 
-                        String locurl = getpathwaymap();
-                        URL url = new URL(locurl);
-                        Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        mapimg.setImageBitmap(bmp);
+                        String scount = "";
+                        for (int s=0; s<t.rating; s++)
+                            scount+="★";
+                        tripratetxt.setText(scount);
 
 
                     } else {

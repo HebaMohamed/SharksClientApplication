@@ -25,6 +25,7 @@ import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.LatLngInterpolator;
 import com.client.gp.sharksclientapplication.myclasses.TalkMessage;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
+import com.client.gp.sharksclientapplication.myservices.FemaleService;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
@@ -119,8 +120,10 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String status = dataSnapshot.child("status").getValue(String.class);
-                if(status.equals("ended")) {
+                String comment = dataSnapshot.child("comment").getValue(String.class);
+                if(status.equals("ended")&&comment.equals("")) {
                     MyApplication.setEndTripState();
+                    stopService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
                     startActivity(new Intent(InTripActivity.this, DoneTripActivity.class));
                     finish();
                 }
@@ -143,15 +146,15 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 
     }
 
-    void sendTestEnded(){
-
-        JSONObject jso = new JSONObject();
-        try {
-            jso.put("type", "tripended");
-            MyApplication.sendNotification(jso);
-
-        } catch (JSONException e) { e.printStackTrace(); }
-    }
+//    void sendTestEnded(){
+//
+//        JSONObject jso = new JSONObject();
+//        try {
+//            jso.put("type", "tripended");
+//            MyApplication.sendNotification(jso);
+//
+//        } catch (JSONException e) { e.printStackTrace(); }
+//    }
 
 
 

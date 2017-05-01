@@ -37,22 +37,29 @@ public class DoneTripActivity extends AppCompatActivity {
     Button submitbtn;
     ProgressDialog progress;
 
+    TextView dnametxt;
+
     Trip currentTrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_done_trip);
+        setTitle("Trip Feedback");
 
-        costtxt=(TextView)findViewById(R.id.costtxt);
-        stxt=(TextView)findViewById(R.id.stxt);
-        dtxt=(TextView)findViewById(R.id.dtxt);
+        dnametxt = (TextView)findViewById(R.id.dnametxt);
+//        costtxt=(TextView)findViewById(R.id.costtxt);
+//        stxt=(TextView)findViewById(R.id.stxt);
+//        dtxt=(TextView)findViewById(R.id.dtxt);
         ratingBar=(RatingBar) findViewById(R.id.ratingBar);
         commentxt=(EditText) findViewById(R.id.commentxt);
         submitbtn=(Button)findViewById(R.id.submitbtn);
         setuploading();
         currentTrip=MyApplication.getPickupTrip();
+        currentTrip.d=MyApplication.getCurrentDriver();
 
         MyApplication.setReadyState();
+
+        dnametxt.setText("To Driver : "+currentTrip.d.name);
 
         submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override

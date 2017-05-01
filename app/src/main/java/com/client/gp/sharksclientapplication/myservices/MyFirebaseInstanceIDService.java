@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.client.gp.sharksclientapplication.MyApplication;
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.MyURL;
 import com.firebase.client.Firebase;
@@ -41,6 +42,11 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         //Displaying token on logcat
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 //        sendRegistrationToServer(refreshedToken);
+    }
+
+    public static void sendRegistrationToServer(String token,int id) {
+
+        MyApplication.myFirebaseRef.child("driver").child(String.valueOf(id)).child("token").setValue(token);
     }
 //
 //    public static void sendRegistrationToServer(final String token) {

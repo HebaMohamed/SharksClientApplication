@@ -108,17 +108,17 @@ public class WaitActivity extends AppCompatActivity {
 
     }
 
-    void sendTestAcceptance(){
-
-        JSONObject jso = new JSONObject();
-        try {
-            jso.put("type", "requestresponse");
-            jso.put("tripid", 1);
-            jso.put("driverid", 1);
-            MyApplication.sendNotification(jso);
-
-        } catch (JSONException e) { e.printStackTrace(); }
-    }
+//    void sendTestAcceptance(){
+//
+//        JSONObject jso = new JSONObject();
+//        try {
+//            jso.put("type", "requestresponse");
+//            jso.put("tripid", 1);
+//            jso.put("driverid", 1);
+//            MyApplication.sendNotification(jso);
+//
+//        } catch (JSONException e) { e.printStackTrace(); }
+//    }
 
 
 

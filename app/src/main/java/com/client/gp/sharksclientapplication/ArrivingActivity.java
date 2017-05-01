@@ -17,6 +17,7 @@ import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.LatLngInterpolator;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
+import com.client.gp.sharksclientapplication.myservices.FemaleService;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
@@ -87,13 +88,20 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
 
                 if(status.equals("started")) {
 
-                    double destlat = dataSnapshot.child("destlat").getValue(Double.class);
-                    double destlng = dataSnapshot.child("destlng").getValue(Double.class);
+                    try {
 
-                    //save request for activity use
-                    MyApplication.setInTripState(destlat, destlng);
-                    startActivity(new Intent(ArrivingActivity.this, InTripActivity.class));
-                    finish();
+                        double destlat = dataSnapshot.child("destlat").getValue(Double.class);
+                        double destlng = dataSnapshot.child("destlng").getValue(Double.class);
+
+                        //save request for activity use
+                        MyApplication.setInTripState(destlat, destlng);
+                        startService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
+                        startActivity(new Intent(ArrivingActivity.this, InTripActivity.class));
+                        finish();
+                    }
+                    catch ( NullPointerException ne){
+                        ne.printStackTrace();
+                    }
                 }
 
             }
@@ -242,16 +250,16 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     ///////////////////////////////////////////////////////////////////
-    void sendTestStarted(){
-
-        JSONObject jso = new JSONObject();
-        try {
-            jso.put("type", "tripstarted");
-            jso.put("destlat", 30.123177);
-            jso.put("destlng", 31.009540);
-            MyApplication.sendNotification(jso);
-
-        } catch (JSONException e) { e.printStackTrace(); }
-    }
+//    void sendTestStarted(){
+//
+//        JSONObject jso = new JSONObject();
+//        try {
+//            jso.put("type", "tripstarted");
+//            jso.put("destlat", 30.123177);
+//            jso.put("destlng", 31.009540);
+//            MyApplication.sendNotification(jso);
+//
+//        } catch (JSONException e) { e.printStackTrace(); }
+//    }
 
 }

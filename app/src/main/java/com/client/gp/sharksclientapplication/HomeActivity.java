@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.client.gp.sharksclientapplication.myservices.FemaleService;
+
 import at.markushi.ui.CircleButton;
 
 public class HomeActivity extends AppCompatActivity {
@@ -43,7 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         settingsbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.storelogout();
+
+                //MyApplication.storelogout();
+                stopService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
+
             }
         });
 

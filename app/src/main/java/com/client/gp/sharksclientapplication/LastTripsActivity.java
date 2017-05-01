@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.MyURL;
 import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -127,26 +129,39 @@ public class LastTripsActivity extends AppCompatActivity {
 
                     if (success == 1) {
 
-                        JSONArray lasttrips=obj.getJSONArray("lasttrips");
+                        JSONArray lasttrips=obj.getJSONArray("trips");
                         for (int i=0;i<lasttrips.length();i++)
                         {
                             JSONObject object =lasttrips.getJSONObject(i);
                             JSONArray pathway=object.getJSONArray("pathway");
-                            JSONObject pickupobj = pathway.getJSONObject(0);
-                            JSONObject destinationobj=pathway.getJSONObject(pathway.length()-1);
+
                             Trip t1 = new Trip(object.getInt("trip_id"));
-                            t1.start_Date= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(object.getString("start"));
-                            t1.end_Date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(object.getString("end"));;
+                            SimpleDateFormat fr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                            t1.start_Date= new Date(object.getLong("start"));//fr.parse(fr.format(new Date(object.getLong("start"))));//.parse bytl3 date lkn format bytl3 string
+                            t1.end_Date = new Date(object.getLong("end"));//new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(object.getString("end"));;
                             t1.price = new Double(object.getDouble("price "));
                             t1.comment = new String(object.getString("comment"));
                             t1.rating = new Double(object.getDouble("ratting"));
-                            t1.p = new Passenger(object.getInt("passenger_id"));
-                            t1.destination.setLatitude(destinationobj.getDouble("lat"));
-                            t1.destination.setLongitude(destinationobj.getDouble("lng"));
-                            t1.pickup.setLatitude(pickupobj.getDouble("lat"));
-                            t1.pickup.setLongitude(pickupobj.getDouble("lng"));
+                            t1.d = new Driver(object.getInt("driver_id"));
+                            if(pathway.length()>0) {
+                                JSONObject pickupobj = pathway.getJSONObject(0);
+                                JSONObject destinationobj;
+                                if(pathway.length()>1)
+                                    destinationobj = pathway.getJSONObject(pathway.length() - 1);
+                                else
+                                    destinationobj=pickupobj;
 
-                            t1.pickupAddress=MyApplication.getLocationAddress(t1.destination);
+
+                                t1.destination.setLatitude(destinationobj.getDouble("lat"));
+                                t1.destination.setLongitude(destinationobj.getDouble("lng"));
+                                t1.pickup.setLatitude(pickupobj.getDouble("lat"));
+                                t1.pickup.setLongitude(pickupobj.getDouble("lng"));
+                                t1.pickupAddress=MyApplication.getLocationAddress(t1.destination);
+                            }
+                            else
+                                t1.pickupAddress="Not Moved";
+
+
 
                             trips.add(t1);
 

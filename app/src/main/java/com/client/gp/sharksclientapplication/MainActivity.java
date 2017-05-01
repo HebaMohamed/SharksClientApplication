@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.client.gp.sharksclientapplication.myclasses.MyURL;
 import com.client.gp.sharksclientapplication.myclasses.Passenger;
+import com.client.gp.sharksclientapplication.myservices.FemaleService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+//        startService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
+//        stopService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
 
 
         try {
