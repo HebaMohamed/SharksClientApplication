@@ -7,11 +7,14 @@ import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.client.gp.sharksclientapplication.MyApplication;
+import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationRequest;
 
@@ -32,6 +35,7 @@ public class FemaleService  extends Service implements SensorListener {
     long lastUpdate;
     //    private Connection conn;
     public static int count = 0;
+    Trip t;
 
     private boolean isServiceRunning = false;
     @Override
@@ -47,6 +51,9 @@ public class FemaleService  extends Service implements SensorListener {
         sensorMgr.registerListener(this,
                 SensorManager.SENSOR_ACCELEROMETER,
                 SensorManager.SENSOR_DELAY_GAME);
+
+        t = MyApplication.getPickupTrip();
+
 
         return Service.START_STICKY;
     }
@@ -87,13 +94,19 @@ public class FemaleService  extends Service implements SensorListener {
 //                    sensortxt.setTextColor(Color.RED);
 
                     count++;
-                    if (count > 5) {
+                    if (count > 10) {
 //                        Toast.makeText(MainActivity.this, "There is any problem ?!", Toast.LENGTH_SHORT).show();
                         //send alarm to server
                         try {
 //                            Statement st = conn.createStatement();
 //                            st.execute("INSERT INTO sensor (passengerid,speed) VALUES (" + passengerid + "," + speed + ");");
 //                            sendPubWarning();
+
+                            MyApplication.myFirebaseRef.child("femalesaftey").child(String.valueOf(System.currentTimeMillis())).child("tid").setValue(String.valueOf(t.trip_ID));
+                            MyApplication.myFirebaseRef.child("femalesaftey").child(String.valueOf(System.currentTimeMillis())).child("lat").setValue(String.valueOf(30.045915));
+                            MyApplication.myFirebaseRef.child("femalesaftey").child(String.valueOf(System.currentTimeMillis())).child("lng").setValue(String.valueOf(31.22429));
+
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

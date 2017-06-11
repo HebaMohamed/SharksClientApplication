@@ -49,7 +49,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mMap;
     TextView addrtxt;
-    Button submitbtn;
+    Button submitbtn2;//submitbtn
     public static double lat, lng;
     public static String approxAddress;
 
@@ -66,12 +66,21 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
 
         addrtxt = (TextView) findViewById(R.id.addrtxt);
-        submitbtn = (Button) findViewById(R.id.submitbtn);
+//        submitbtn = (Button) findViewById(R.id.submitbtn);
+        submitbtn2 = (Button) findViewById(R.id.submitbtn2);
 
-        submitbtn.setOnClickListener(new View.OnClickListener() {
+//        submitbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PickupMapActivity.this, SubmitRequestActivity.class));
+//                finish();
+//            }
+//        });
+
+        submitbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PickupMapActivity.this, SubmitRequestActivity.class));
+                startActivity(new Intent(PickupMapActivity.this, RecommendActivity.class));
                 finish();
             }
         });

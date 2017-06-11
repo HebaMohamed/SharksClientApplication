@@ -62,6 +62,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
     Trip currentTrip;
     private Marker drivermarker;
 
+    int f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
+                startActivity(new Intent(InTripActivity.this, FemaleActivity.class));
 
             }
         });
@@ -114,6 +116,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 //        };
 //        registerReceiver(receiver, filter);
 
+        f = 0;
 
         //listen & get initial value
         MyApplication.myFirebaseRef.child(AppConstants.FIRE_TRIPS).child(String.valueOf(currentTrip.trip_ID)).addValueEventListener(new ValueEventListener() {
@@ -121,7 +124,8 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String status = dataSnapshot.child("status").getValue(String.class);
                 String comment = dataSnapshot.child("comment").getValue(String.class);
-                if(status.equals("ended")&&comment.equals("")) {
+                if(status.equals("ended")&&(f==0)){//&&comment.equals("")) {
+                    f=1;
                     MyApplication.setEndTripState();
                     stopService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
                     startActivity(new Intent(InTripActivity.this, DoneTripActivity.class));

@@ -46,7 +46,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     public static void sendRegistrationToServer(String token,int id) {
 
-        MyApplication.myFirebaseRef.child("driver").child(String.valueOf(id)).child("token").setValue(token);
+        MyApplication.myFirebaseRef.child("passenger").child(String.valueOf(id)).child("token").setValue(token);
     }
 //
 //    public static void sendRegistrationToServer(final String token) {

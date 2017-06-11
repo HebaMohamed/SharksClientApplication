@@ -191,7 +191,7 @@ public class LastTripDetailsActivity extends AppCompatActivity {
                         endtxt.setText(t.getEnddate());
 //                        tripratetxt.setText(t.rating + " Stars");
                         costtxt.setText(t.price + " $");
-                        distancetxt.setText(getDistance() + "Km");
+                        distancetxt.setText((int)getDistance() + "Km");
                         durationtxt.setText(getDuration(t));
 
                         String scount = "";
@@ -282,7 +282,7 @@ public class LastTripDetailsActivity extends AppCompatActivity {
     }
 
     String getDuration(Trip t1){
-        long diff =  t1.start_Date.getTime() - t1.end_Date.getTime();
+        long diff =  t1.end_Date.getTime() - t1.start_Date.getTime();
         int numOfDays = (int) (diff / (1000 * 60 * 60 * 24));
         int hours = (int) (diff / (1000 * 60 * 60));
         int minutes = (int) (diff / (1000 * 60));

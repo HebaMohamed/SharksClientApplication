@@ -9,6 +9,8 @@ public class Vehicle {
     public String color;
     public String plate_number;
 
+    public double distance;
+
     public Vehicle(int id)
     {
         this.id=id;

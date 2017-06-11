@@ -15,11 +15,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <!--<permission-->
-        <!--android:name="com.sharks.gp.sharkspassengerapplication.permission.C2D_MESSAGE"-->
-        <!--android:protectionLevel="signature" />-->
+    <!-- <permission -->
+    <!-- android:name="com.sharks.gp.sharkspassengerapplication.permission.C2D_MESSAGE" -->
+    <!-- android:protectionLevel="signature" /> -->
 
-    <!--<uses-permission android:name="com.sharks.gp.sharkspassengerapplication.permission.C2D_MESSAGE" />&lt;!&ndash;edit&ndash;&gt;-->
+
+    <!-- <uses-permission android:name="com.sharks.gp.sharkspassengerapplication.permission.C2D_MESSAGE" />&lt;!&ndash;edit&ndash;&gt; -->
 
     <uses-permission android:name="com.client.gp.sharksclientapplication.permission.RECEIVE" />
 
@@ -30,17 +31,20 @@
         android:label="Sharks Passenger"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<receiver-->
-            <!--android:name=".myservices.GcmBroadcastReceiver"-->
-            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
 
-                <!--<category android:name="com.sharks.gp.sharkspassengerapplication" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver -->
+        <!-- android:name=".myservices.GcmBroadcastReceiver" -->
+        <!-- android:permission="com.google.android.c2dm.permission.SEND"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
 
-        <!--<service android:name=".myservices.GcmIntentService" />-->
+
+        <!-- <category android:name="com.sharks.gp.sharkspassengerapplication" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+
+
+        <!-- <service android:name=".myservices.GcmIntentService" /> -->
 
         <service
             android:name=".myservices.MyFirebaseMessagingService"
@@ -101,7 +105,9 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LastTripsActivity" />
-        <activity android:name=".LastTripDetailsActivity"></activity>
+        <activity android:name=".LastTripDetailsActivity" />
+        <activity android:name=".FemaleActivity" />
+        <activity android:name=".RecommendActivity"></activity>
     </application>
 
 </manifest>

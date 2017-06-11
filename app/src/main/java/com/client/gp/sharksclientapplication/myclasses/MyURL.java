@@ -15,6 +15,7 @@ public class MyURL {
 
     public static String sendfeedback = hostname+"sendfeedback/";
 
+    public static String getneardrivers = hostname+"getneardrivers/";
 
 
 

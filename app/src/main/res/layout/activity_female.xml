@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_female"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.client.gp.sharksclientapplication.FemaleActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/warningimg"
+        android:padding="50dp"
+        android:layout_above="@+id/signupbtn" />
+
+    <Button
+        style="?android:textAppearanceSmall"
+        android:background="@drawable/buttonoval2"
+        android:id="@+id/dangerbtn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Ask For Help !!!"
+        android:textColor="#fff"
+        android:padding="7dp"
+        android:textSize="17dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
