@@ -387,7 +387,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         editor.putString("pgender", p.gender);
         editor.putInt("page", p.age);
         editor.putString("pname", p.fullName);
-        editor.putInt("pphone", p.phone);
+        editor.putString("pphone", p.phone);
         editor.putString("prelativephone", p.relative_phone);
         editor.putString("planguage", p.language);
         editor.putString("pemail", p.email);
@@ -401,7 +401,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
             String pgender = prefs.getString("pgender", "");
             int page = prefs.getInt("page", 0);
             String pname = prefs.getString("pname", "");
-            int pphone = prefs.getInt("pphone", 0);
+            String pphone = prefs.getString("pphone", "0");
             String prelativephone = prefs.getString("prelativephone", "0");
             String planguage = prefs.getString("planguage", "");
             String pemail = prefs.getString("pemail", "");

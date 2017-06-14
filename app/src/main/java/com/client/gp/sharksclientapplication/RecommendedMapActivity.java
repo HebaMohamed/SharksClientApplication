@@ -81,6 +81,12 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        //move to location
+        LatLng ll = new LatLng(PickupMapActivity.lat,PickupMapActivity.lng);//for test onlyyy //ay location we hyt8yr lma ysm3
+        //move to this location
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+
 
         for (int i = 0; i < drivers.size(); i++) {
             BitmapDescriptor icn;
@@ -127,13 +133,13 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
                                 f = 1;
                             }
                         }
-                        if (f == 0) {
-                            markers.add(mMap.addMarker(new MarkerOptions()
-                                    .position(ll)
-                                    .title("Shark Location")
-                                    .snippet(String.valueOf(vid))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
-                        }
+//                        if (f == 0) { //shelto 3shn ygebly l 2oryb bs
+//                            markers.add(mMap.addMarker(new MarkerOptions()
+//                                    .position(ll)
+//                                    .title("Shark Location")
+//                                    .snippet(String.valueOf(vid))
+//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
+//                        }
 
 //
 //
@@ -215,7 +221,7 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
 
                 dnametxt.setText("Driver Name : "+drivers.get(i).name);
                 dvmodeltxt.setText("Vehicle Model : "+drivers.get(i).vehicle.model);
-                ddisttxt.setText(String.valueOf(((Double)(drivers.get(i).vehicle.distance/1000))+"Km"));
+                ddisttxt.setText(String.valueOf(((int)(drivers.get(i).vehicle.distance/1000))+"Km"));
 //                String locurl = MyURL.uploadedimagesurl + meks.get(index).img;
 //                if(!meks.get(index).img.equals(""))
 //                    Picasso.with(this).load(locurl).into(pmekimg);
@@ -387,5 +393,7 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
             }
         });
     }
+
+
 
 }

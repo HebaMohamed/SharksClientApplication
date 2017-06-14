@@ -347,7 +347,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 //        Toast.makeText(GeoLocMapActivity.this, "Loc", Toast.LENGTH_SHORT).show();
         loc = location;
 
-        LatLng ll = new LatLng(loc.getLatitude(),loc.getLongitude());//for test onlyyy //ay location we hyt8yr lma ysm3
+        LatLng ll = new LatLng(loc.getLatitude(),loc.getLongitude());//ay location we hyt8yr lma ysm3
         //move to this location
         mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));

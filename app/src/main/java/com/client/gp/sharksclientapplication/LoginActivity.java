@@ -108,8 +108,8 @@ public class LoginActivity extends AppCompatActivity {
                         String fullname = passenger.getString("fullname");
                         String gender = passenger.getString("gender");
                         int age = passenger.getInt("age");
-                        int phone = passenger.getInt("phone");
-                        int relatedphone = passenger.getInt("relatedphone");
+                        String phone = passenger.getString("phone");
+                        String relatedphone = passenger.getString("relatedphone");
                         String language = passenger.getString("language");
                         String email = passenger.getString("email");
 
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                         p.age=age;
                         p.fullName=fullname;
                         p.phone=phone;
-                        p.relative_phones=relatedphone;
+                        p.relative_phone=relatedphone;
                         p.language=language;
                         p.email=email;
 

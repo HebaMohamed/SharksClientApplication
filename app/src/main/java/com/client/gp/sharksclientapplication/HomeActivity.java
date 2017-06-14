@@ -49,6 +49,9 @@ public class HomeActivity extends AppCompatActivity {
                 //MyApplication.storelogout();
 //                stopService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
 
+                startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
+
+
             }
         });
 

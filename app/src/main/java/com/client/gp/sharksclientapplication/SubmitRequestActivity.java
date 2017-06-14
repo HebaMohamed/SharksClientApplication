@@ -316,7 +316,7 @@ public class SubmitRequestActivity extends AppCompatActivity {
                         MyApplication.setSentState(pickup,tripid,d,nwtimestamp);
 //                        sendDriverNotification(driver_id,tripid,details);
                         startActivity(new Intent(SubmitRequestActivity.this, WaitActivity.class));
-                        //finish();
+                        finish();
                     }
                     else {
                         Toast.makeText(SubmitRequestActivity.this, msg, Toast.LENGTH_SHORT).show();

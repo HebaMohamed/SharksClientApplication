@@ -10,7 +10,7 @@ public class Passenger {
     public String fullName;
     public String gender;
     public int age;
-    public int phone;
+    public String phone;
     public String relative_phone;
     public String language;
     public String email;
@@ -18,7 +18,7 @@ public class Passenger {
     public Passenger(int id){
         this.id=id;
     }
-    public Passenger(int id,String pass,String name,String gender,int age,int phone,String R_phone,String language,String email)
+    public Passenger(int id,String pass,String name,String gender,int age,String phone,String R_phone,String language,String email)
     {
         this.id=id;
         this.password=pass;

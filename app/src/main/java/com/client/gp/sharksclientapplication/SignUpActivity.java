@@ -89,8 +89,8 @@ public class SignUpActivity extends AppCompatActivity {
                     String pass = passtxt.getText().toString();
                     String name = usernametxt.getText().toString();
                     String email = emailtxt.getText().toString();
-                    int phone = Integer.parseInt(phonetxt.getText().toString());
-                    int relatedphone = Integer.parseInt(reltedphonetxt.getText().toString());
+                    String phone = phonetxt.getText().toString();
+                    String relatedphone = reltedphonetxt.getText().toString();
                     int age = Integer.parseInt(agetxt.getText().toString());
 
                     String languagecode = languagesCodes.get(selectedIndex);
@@ -149,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity {
             toobj.put("email",p.email);
             toobj.put("password",p.password);
             toobj.put("phone",p.phone);
-            toobj.put("relatedphone",p.relative_phones);
+            toobj.put("relatedphone",p.relative_phone);
             toobj.put("gender",p.gender);
             toobj.put("age",p.age);
             toobj.put("language",p.language);

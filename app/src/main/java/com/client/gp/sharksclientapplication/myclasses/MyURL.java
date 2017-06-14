@@ -17,6 +17,9 @@ public class MyURL {
 
     public static String getneardrivers = hostname+"getneardrivers/";
 
+    public static String editpassenger = hostname+"editpassenger/";
+
+
 
 
 }
