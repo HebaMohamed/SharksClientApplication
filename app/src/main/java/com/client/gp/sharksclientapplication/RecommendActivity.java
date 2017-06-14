@@ -38,11 +38,11 @@ import java.util.Map;
 
 public class RecommendActivity extends AppCompatActivity {
 
-    ArrayList<Driver> drivers = new ArrayList<>();
+//    ArrayList<Driver> drivers = new ArrayList<>();
     ArrayAdapter adapter;
     ListView avglv;
 
-    static public int selectedvid;
+//    static public int selectedvid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,8 @@ public class RecommendActivity extends AppCompatActivity {
 
 //        setadapter(drivers,avglv);
 
-        getneardrivers(PickupMapActivity.lat,PickupMapActivity.lng);
+//        getneardrivers(PickupMapActivity.lat,PickupMapActivity.lng);
+        setadapter(RecommendedMapActivity.drivers,avglv);
 
     }
 
@@ -103,7 +104,7 @@ public class RecommendActivity extends AppCompatActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        selectedvid = a.get(i).vehicle.id;
+                        RecommendedMapActivity.requestedvid = a.get(i).vehicle.id;
                         startActivity(new Intent(RecommendActivity.this, SubmitRequestActivity.class));
                     }
                 });
@@ -114,111 +115,6 @@ public class RecommendActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
 
-
-    void getneardrivers(double ilat, double ilng){
-//        progress.show();
-        JSONObject toobj = new JSONObject();
-        try {
-            toobj.put("ilat",ilat);
-            toobj.put("ilng",ilng);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        final String requestBody = toobj.toString();
-
-        StringRequest sr = new StringRequest(Request.Method.POST, MyURL.getneardrivers , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    String msg = obj.getString("msg");
-                    int success = Integer.parseInt(obj.getString("success"));
-
-//                    progress.hide();
-                    if(success==1){
-                        JSONArray neardrivers = obj.getJSONArray("neardrivers");
-                        for (int i = 0; i < neardrivers.length() ; i++) {
-                            JSONObject sob = neardrivers.getJSONObject(i);
-                            int did = sob.getInt("did");
-                            int avg = sob.getInt("avg");
-                            int vid = sob.getInt("vid");
-                            String avgtxt = sob.getString("avgtxt");
-                            String fullname = sob.getString("fullname");
-                            double dist = sob.getDouble("dist");
-
-                            Driver d = new Driver(did,fullname,"","");
-                            d.avg=avg;
-                            d.avgtxt=avgtxt;
-                            d.vehicle = new Vehicle(vid);
-                            d.vehicle.distance=dist;
-
-                            drivers.add(d);
-
-                        }
-
-                        setadapter(drivers,avglv);
-//                        startActivity(new Intent(Rem.this, WaitActivity.class));
-                        //finish();
-                    }
-                    else {
-                        Toast.makeText(RecommendActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-//                    progress.hide();
-                    Toast.makeText(RecommendActivity.this, "Something went wrong! "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-//                progress.hide();
-                Toast.makeText(RecommendActivity.this, "Something went wrong!"+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }){
-            //            @Override
-//            protected Map<String,String> getParams(){
-//                Map<String,String> params = new HashMap<String, String>();
-//                params.put("driver_id", String.valueOf(d.id));
-//                params.put("password",d.password);
-//                return params;
-//            }
-            @Override
-            public String getBodyContentType() {
-                return String.format("application/x-www-form-urlencoded; charset=utf-8");
-            }
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
-                            requestBody, "utf-8");
-                    return null;
-                }
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-//                params.put("Content-Type","application/x-www-form-urlencoded");
-//                params.put("Content-Type","application/json");
-                return params;
-            }
-        };
-
-        //sr.setRetryPolicy(new DefaultRetryPolicy( 100000, 10, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        int MY_SOCKET_TIMEOUT_MS = 120000;
-        sr.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        // Add the request to the queue
-        Volley.newRequestQueue(this).add(sr);
-
-    }
 
 
 }

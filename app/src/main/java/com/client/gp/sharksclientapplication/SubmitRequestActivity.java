@@ -124,7 +124,7 @@ public class SubmitRequestActivity extends AppCompatActivity {
 //                    sentflag=0;
 //                    getTheNearest(selectedLoc);
 
-                    sendsubmit(selectedLoc, adddetailstxt.getText().toString(),RecommendActivity.selectedvid);
+                    sendsubmit(selectedLoc, adddetailstxt.getText().toString(),RecommendedMapActivity.requestedvid);
 
                 }
             });

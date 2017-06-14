@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -45,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +60,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 
     TextView addresstxt, durationtxt, disttxt;
     CircleButton chatbtn, warningbtn;
+    ImageView alertcircle;
 
     Trip currentTrip;
     private Marker drivermarker;
@@ -74,6 +77,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         disttxt=(TextView)findViewById(R.id.disttxt);
         chatbtn=(CircleButton)findViewById(R.id.chatbtn);
         warningbtn=(CircleButton)findViewById(R.id.warningbtn);
+        alertcircle=(ImageView)findViewById(R.id.alertcircle);
 
         currentTrip=MyApplication.getPickupTrip();
         currentTrip.d=MyApplication.getCurrentDriver();
@@ -143,10 +147,28 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 
 
 
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        //listen to talk notification
+        //listen & get initial value
+        MyApplication.myFirebaseRef.child(AppConstants.FIRE_TRIPS).child(String.valueOf(currentTrip.trip_ID)).child("talk").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                alertcircle.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
 
     }
 
@@ -189,6 +211,9 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 
                 double lat = dataSnapshot.child("lat").getValue(Double.class);
                 double lng = dataSnapshot.child("lng").getValue(Double.class);
+
+                FemaleActivity.lat = lat;
+                FemaleActivity.lng = lng;
 
                 animateMarkerToGB(drivermarker,new LatLng(lat, lng));
                 getDirections(lat, lng);
@@ -361,6 +386,14 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         // Add the request to the queue
         Volley.newRequestQueue(MyApplication.getAppContext()).add(sr);
     }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        alertcircle.setVisibility(View.INVISIBLE);
+    }
+
 
 
 

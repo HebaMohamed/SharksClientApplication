@@ -80,7 +80,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
         submitbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PickupMapActivity.this, RecommendActivity.class));
+                startActivity(new Intent(PickupMapActivity.this, RecommendedMapActivity.class));
                 finish();
             }
         });
@@ -147,7 +147,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 
         //listen to all vehicles moves
 
-        String g = MyApplication.myFirebaseRef.child("trips").child("1").child("status").getKey();
+//        String g = MyApplication.myFirebaseRef.child("trips").child("1").child("status").getKey();
 
 
         //listen & get initial value

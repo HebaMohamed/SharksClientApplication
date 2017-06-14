@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="1" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#64345266">
+
+                <ImageView
+                    android:id="@+id/imageView21"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/smallorangeshark"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#64345266" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#fff"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="10dp"
+            android:id="@+id/pmekimg"
+            android:src="@drawable/addrplaceholder"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/dnametxt"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/pmekimg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Model : "
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:id="@+id/dvmodeltxt"
+            android:layout_below="@+id/dnametxt"
+            android:layout_toEndOf="@+id/pmekimg"
+            android:layout_above="@+id/requestbtn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00Km"
+            android:textColor="@color/colorAccent"
+            android:paddingRight="10dp"
+            android:id="@+id/ddisttxt"
+            android:layout_below="@+id/dvmodeltxt"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            style="?android:textAppearanceSmall"
+            android:background="@drawable/buttonoval"
+            android:id="@+id/requestbtn"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:text="Request Now"
+            android:textColor="#fff"
+            android:padding="5dp"
+            android:textSize="11dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_above="@+id/textView22"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/textView22"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="#fff"
+            android:id="@+id/mcbtn"
+            android:textColor="@color/colorPrimary"
+            android:text="X"
+            android:layout_alignParentTop="true"
+            android:layout_alignEnd="@+id/ddisttxt" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/avgimg"
+            android:src="@drawable/confused4"
+            android:padding="17dp"
+            android:layout_below="@+id/pmekimg"
+            android:layout_toStartOf="@+id/dvmodeltxt" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

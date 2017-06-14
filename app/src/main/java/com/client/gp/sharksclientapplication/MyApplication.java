@@ -27,12 +27,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.pubnub.api.Callback;
-import com.pubnub.api.PnGcmMessage;
-import com.pubnub.api.PnMessage;
-import com.pubnub.api.Pubnub;
-import com.pubnub.api.PubnubError;
-import com.pubnub.api.PubnubException;
+
 
 import org.json.JSONObject;
 
@@ -228,16 +223,16 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
 //        }
 //    }
 
-    public static Callback callback = new Callback() {
-        @Override
-        public void successCallback(String channel, Object message) {
-            Log.i(TAG, "Success on Channel " + AppConstants.CHANNEL_NOTIFY  + " : " + message);
-        }
-        @Override
-        public void errorCallback(String channel, PubnubError error) {
-            Log.i(TAG, "Error On Channel " + AppConstants.CHANNEL_NOTIFY + " : " + error);
-        }
-    };
+//    public static Callback callback = new Callback() {
+//        @Override
+//        public void successCallback(String channel, Object message) {
+//            Log.i(TAG, "Success on Channel " + AppConstants.CHANNEL_NOTIFY  + " : " + message);
+//        }
+//        @Override
+//        public void errorCallback(String channel, PubnubError error) {
+//            Log.i(TAG, "Error On Channel " + AppConstants.CHANNEL_NOTIFY + " : " + error);
+//        }
+//    };
 
 
     //////////////////////////////////////////////////////////////////////////////////loc
@@ -393,13 +388,13 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
         editor.putInt("page", p.age);
         editor.putString("pname", p.fullName);
         editor.putInt("pphone", p.phone);
-        editor.putInt("prelativephone", p.relative_phones);
+        editor.putString("prelativephone", p.relative_phone);
         editor.putString("planguage", p.language);
         editor.putString("pemail", p.email);
 
         editor.apply();
     }
-    public static Passenger getLoggedPassenger() throws Exception {
+    public static Passenger getLoggedPassenger() {
         int pid = prefs.getInt("pid", 0);
         Passenger p;
         if(pid != 0) {//3shn lw mfish wla passenger logged
@@ -407,7 +402,7 @@ public class MyApplication  extends android.support.multidex.MultiDexApplication
             int page = prefs.getInt("page", 0);
             String pname = prefs.getString("pname", "");
             int pphone = prefs.getInt("pphone", 0);
-            int prelativephone = prefs.getInt("prelativephone", 0);
+            String prelativephone = prefs.getString("prelativephone", "0");
             String planguage = prefs.getString("planguage", "");
             String pemail = prefs.getString("pemail", "");
 

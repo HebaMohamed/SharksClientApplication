@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_recommended_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.client.gp.sharksclientapplication.RecommendedMapActivity">
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/map"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Nearby Sharks with Driving Behavoir Average"
+            android:textColor="@color/white"
+            android:id="@+id/textView"
+            android:padding="5dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="10sp" />
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignParentBottom="true"
+        android:padding="7dp"
+        android:weightSum="8"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@drawable/happy1"/>
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Excellent"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@drawable/happy2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Very Good"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@drawable/smile3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Good"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@drawable/confused4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Bad"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -102,7 +102,7 @@
             android:textColor="#fff"
             android:padding="10dp"
             android:layout_weight="1"
-            android:text="Pickup Recommendation"
+            android:text="Set Pickup Location"
             android:id="@+id/submitbtn2" />
 </LinearLayout>
 
