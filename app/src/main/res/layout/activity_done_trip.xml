@@ -16,12 +16,11 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:padding="7dp"
             android:layout_gravity="center"
-            android:background="@drawable/buttonoval2"
-            android:src="@drawable/usericn"/>
+            android:src="@drawable/taxidriver"/>
 
         <TextView
             android:text="To Driver : ........."

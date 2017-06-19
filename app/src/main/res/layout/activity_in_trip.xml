@@ -52,6 +52,7 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:id="@+id/alertcircle"
+        android:visibility="invisible"
         android:src="@drawable/redcircle"
         android:layout_above="@+id/linearlayout1"
         android:layout_alignParentEnd="true"

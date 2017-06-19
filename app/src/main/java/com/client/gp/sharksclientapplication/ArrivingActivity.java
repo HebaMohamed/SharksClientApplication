@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import at.markushi.ui.CircleButton;
+
 public class ArrivingActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -41,6 +44,8 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
     Driver tripDriver;
     Trip currentTrip;
     private Marker drivermarker;
+
+    CircleButton cancelbtn;
 
     LatLng lll;
 
@@ -58,6 +63,8 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
         vmodeltxt=(TextView)findViewById(R.id.vmodeltxt);
         vnumtxt=(TextView)findViewById(R.id.vnumtxt);
 
+        cancelbtn=(CircleButton)findViewById(R.id.cancelbtn);
+
         tripDriver=MyApplication.getCurrentDriver();
 
         dnametxt.setText(tripDriver.name);
@@ -66,6 +73,16 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
 
 
         currentTrip=MyApplication.getPickupTrip();
+
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyApplication.myFirebaseRef.child("trips").child(String.valueOf(currentTrip.trip_ID)).child("status").setValue("canceled");
+                MyApplication.setReadyState();
+                startActivity(new Intent(ArrivingActivity.this, HomeActivity.class));
+                finish();
+            }
+        });
 
 //        /////recive trip start
 //        IntentFilter filter = new IntentFilter(AppConstants.BROADCAST_TRIP_START_ACTION);
@@ -143,8 +160,8 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                double lat = dataSnapshot.child("lat").getValue(Double.class);
-                double lng = dataSnapshot.child("lng").getValue(Double.class);
+                double lat = dataSnapshot.child("Latitude").getValue(Double.class);
+                double lng = dataSnapshot.child("Longitude").getValue(Double.class);
 
                 lll = new LatLng(lat, lng);
                 animateMarkerToGB(drivermarker,lll);

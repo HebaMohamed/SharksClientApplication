@@ -158,8 +158,8 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     try {
                         String vid = postSnapshot.getKey();
-                        double lat = postSnapshot.child("lat").getValue(Double.class);
-                        double lng = postSnapshot.child("lng").getValue(Double.class);
+                        double lat = postSnapshot.child("Latitude").getValue(Double.class);
+                        double lng = postSnapshot.child("Longitude").getValue(Double.class);
 
                         ll = new LatLng(lat, lng);
                         int f = 0;

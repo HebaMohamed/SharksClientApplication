@@ -23,33 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Passenger p = MyApplication.getLoggedPassenger();
-            if(p!=null) {
-                String appstate = MyApplication.getAppState();
-                if(appstate.equals("requestsent")){
-//                    startActivity(new Intent(MainActivity.this, WaitActivity.class));
-//                    finish();
-                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                    finish();
-                } else if(appstate.equals("arriving")){
-                    startActivity(new Intent(MainActivity.this, ArrivingActivity.class));
-                    finish();
-                } else if(appstate.equals("intrip")){
-                    startActivity(new Intent(MainActivity.this, InTripActivity.class));
-                    finish();
-                } else if(appstate.equals("tripended")){
-                    startActivity(new Intent(MainActivity.this, DoneTripActivity.class));
-                    finish();
-                }else{
-                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                    finish();
-                }
-
-
-            }
-            else {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
-            }
+            passengerReopen(p);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,4 +31,35 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    void passengerReopen(Passenger p){
+        if(p!=null) {
+            String appstate = MyApplication.getAppState();
+            if(appstate.equals("requestsent")){
+//                    startActivity(new Intent(MainActivity.this, WaitActivity.class));
+//                    finish();
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                finish();
+            } else if(appstate.equals("arriving")){
+                startActivity(new Intent(MainActivity.this, ArrivingActivity.class));
+                finish();
+            } else if(appstate.equals("intrip")){
+                startActivity(new Intent(MainActivity.this, InTripActivity.class));
+                finish();
+            } else if(appstate.equals("tripended")){
+                startActivity(new Intent(MainActivity.this, DoneTripActivity.class));
+                finish();
+            }else{
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                finish();
+            }
+
+
+        }
+        else {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
+    }
+
 }

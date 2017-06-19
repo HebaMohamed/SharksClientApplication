@@ -209,8 +209,8 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                double lat = dataSnapshot.child("lat").getValue(Double.class);
-                double lng = dataSnapshot.child("lng").getValue(Double.class);
+                double lat = dataSnapshot.child("Latitude").getValue(Double.class);
+                double lng = dataSnapshot.child("Longitude").getValue(Double.class);
 
                 FemaleActivity.lat = lat;
                 FemaleActivity.lng = lng;

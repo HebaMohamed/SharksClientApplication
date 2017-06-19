@@ -81,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                sendedit(fullnametxt.getText().toString(),emailtxt.getText().toString(),passtxt.getText().toString(),phtxt.getText().toString(),relatedtxt.getText().toString());
             }
         });
 

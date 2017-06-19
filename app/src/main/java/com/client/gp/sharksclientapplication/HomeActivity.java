@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.client.gp.sharksclientapplication.myservices.FemaleService;
 
@@ -56,4 +57,9 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
+    }
+
 }

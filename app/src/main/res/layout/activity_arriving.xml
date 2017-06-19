@@ -14,6 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <at.markushi.ui.CircleButton
+        android:layout_width="70dip"
+        android:layout_height="70dip"
+        android:src="@drawable/error"
+        app:cb_color="#dc5454"
+        app:cb_pressedRingWidth="10dip"
+        android:id="@+id/cancelbtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
