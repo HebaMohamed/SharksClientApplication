@@ -2,11 +2,14 @@ package com.client.gp.sharksclientapplication;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -42,6 +45,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,9 +87,16 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
 
         //move to location
         LatLng ll = new LatLng(PickupMapActivity.lat,PickupMapActivity.lng);//for test onlyyy //ay location we hyt8yr lma ysm3
-        //move to this location
+//        //move to this location
         mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+
+        //ad pickup location
+        mMap.addMarker(new MarkerOptions()
+                .title("Pickup Location")
+                .snippet("0")
+                .position(new LatLng(PickupMapActivity.lat,PickupMapActivity.lng))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.passmarker)));
 
 
         for (int i = 0; i < drivers.size(); i++) {
@@ -119,8 +130,8 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     try {
                         int vid = Integer.parseInt(postSnapshot.getKey());
-                        double lat = postSnapshot.child("lat").getValue(Double.class);
-                        double lng = postSnapshot.child("lng").getValue(Double.class);
+                        double lat = postSnapshot.child("Latitude").getValue(Double.class);
+                        double lng = postSnapshot.child("Longitude").getValue(Double.class);
                         LatLng ll;
 
                         ll = new LatLng(lat, lng);
@@ -196,8 +207,10 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
             @Override
             public boolean onMarkerClick(Marker marker) {
                 int selectedv = Integer.parseInt(marker.getSnippet());
-                fill_infodialog(selectedv);
-                marker.hideInfoWindow();
+                if(selectedv!=0) {
+                    fill_infodialog(selectedv);
+                    marker.hideInfoWindow();
+                }
 
                 //return false;
                 return true;
@@ -228,6 +241,17 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
 //                else
 //                    pmekimg.setImageResource(R.drawable.mecuser);
 
+//                Picasso.with(this).load("data:image/png;base64,"+drivers.get(i).image).into(dimg);
+
+                if(drivers.get(i).image != "") {
+                    byte[] decodedString = Base64.decode(drivers.get(i).image, Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    dimg.setImageBitmap(decodedByte);
+                }else{
+                    dimg.setImageDrawable(getResources().getDrawable(R.drawable.usericn2));
+                }
+
+
                 if(drivers.get(i).avgtxt.equals("Excellent"))
                     avgimg.setImageResource(R.drawable.happy1);
                 else if(drivers.get(i).avgtxt.equals("Very Good"))
@@ -239,6 +263,7 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
 
                 LatLng position = markers.get(i).getPosition();//3shn byt2ado m3 b3d
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(position));
+
 
                 infodialog.show();
             }
@@ -272,6 +297,7 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
                             int did = sob.getInt("did");
                             int avg = sob.getInt("avg");
                             int vid = sob.getInt("vid");
+                            String img = sob.getString("img");
                             String model = sob.getString("model");
                             String avgtxt = sob.getString("avgtxt");
                             String fullname = sob.getString("fullname");
@@ -283,6 +309,7 @@ public class RecommendedMapActivity extends AppCompatActivity implements OnMapRe
                             d.vehicle = new Vehicle(vid);
                             d.vehicle.distance=dist;
                             d.vehicle.model=model;
+                            d.image=img;
 
                             drivers.add(d);
 

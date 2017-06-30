@@ -46,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        setTitle("Edit");
         setuploading();
 
         p = MyApplication.getLoggedPassenger();
@@ -72,8 +73,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyApplication.storelogout();
-//                startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-                System.exit(0);//close app
+                startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+//                System.exit(0);//close app
             }
         });
 
@@ -81,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendedit(fullnametxt.getText().toString(),emailtxt.getText().toString(),passtxt.getText().toString(),phtxt.getText().toString(),relatedtxt.getText().toString());
+                sendedit(nametxt.getText().toString(),emailtxt.getText().toString(),passtxt.getText().toString(),phtxt.getText().toString(),relatedtxt.getText().toString());
             }
         });
 
@@ -157,7 +158,7 @@ public class SettingsActivity extends AppCompatActivity {
 //            }
             @Override
             public String getBodyContentType() {
-                return String.format("application/x-www-form-urlencoded; charset=utf-8");
+                return String.format("application/json; charset=utf-8");
             }
             @Override
             public byte[] getBody() throws AuthFailureError {

@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:id="@+id/mapimg"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:src="@drawable/staticmap"
         android:layout_height="250dp" />
 
@@ -53,11 +53,10 @@
         <ImageView
             android:paddingBottom="7dp"
             android:paddingTop="7dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/routepin"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="top"
+            android:src="@drawable/route2"/>
 
         <LinearLayout
             android:padding="10dp"
@@ -141,7 +140,6 @@
                 android:gravity="bottom|center"
                 android:layout_weight="1"
                 android:id="@+id/distancettxt"
-                android:paddingLeft="10dp"
                 android:textSize="14sp" />
 
             <TextView
@@ -153,7 +151,6 @@
                 android:gravity="right"
                 android:layout_weight="1"
                 android:id="@+id/distancetxt"
-                android:paddingRight="10dp"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -178,7 +175,6 @@
                 android:gravity="bottom"
                 android:layout_weight="1"
                 android:id="@+id/durtationtxt"
-                android:paddingLeft="10dp"
                 android:textSize="14sp" />
 
             <TextView
@@ -190,7 +186,6 @@
                 android:gravity="right"
                 android:layout_weight="1"
                 android:id="@+id/durationtxt"
-                android:paddingRight="10dp"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -215,7 +210,6 @@
                 android:gravity="bottom"
                 android:layout_weight="1"
                 android:id="@+id/duratitontxt"
-                android:paddingLeft="10dp"
                 android:textSize="14sp" />
 
             <TextView
@@ -227,7 +221,6 @@
                 android:gravity="right"
                 android:layout_weight="1"
                 android:id="@+id/costtxt"
-                android:paddingRight="10dp"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -250,21 +243,19 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Trip Rate"
-                android:gravity="bottom"
+                android:gravity="bottom|center_horizontal"
                 android:layout_weight="1"
-                android:paddingLeft="10dp"
                 android:textSize="14sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="..Stars"
+                android:text="★★★★★"
                 android:layout_weight="1"
                 android:id="@+id/tripratetxt"
-                android:gravity="right"
-                android:paddingRight="10dp"
+                android:gravity="center_horizontal"
                 android:textSize="14sp" />
 
         </LinearLayout>

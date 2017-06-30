@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.Driver;
 import com.client.gp.sharksclientapplication.myclasses.LatLngInterpolator;
+import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.client.gp.sharksclientapplication.myservices.FemaleService;
 import com.firebase.client.DataSnapshot;
@@ -43,11 +44,13 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
 
     Driver tripDriver;
     Trip currentTrip;
+    Passenger passenger;
     private Marker drivermarker;
 
     CircleButton cancelbtn;
 
     LatLng lll;
+    int x = 0;
 
 
     @Override
@@ -66,6 +69,9 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
         cancelbtn=(CircleButton)findViewById(R.id.cancelbtn);
 
         tripDriver=MyApplication.getCurrentDriver();
+        passenger=MyApplication.getLoggedPassenger();
+
+
 
         dnametxt.setText(tripDriver.name);
         vmodeltxt.setText(tripDriver.vehicle.model);
@@ -97,13 +103,14 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
 
         //sendTestStarted();//testttttttt
 
+
         //listen & get initial value
         MyApplication.myFirebaseRef.child(AppConstants.FIRE_TRIPS).child(String.valueOf(currentTrip.trip_ID)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String status = dataSnapshot.child("status").getValue(String.class);
 
-                if(status.equals("started")) {
+                if(status.equals("started")&&(x==0)) {
 
                     try {
 
@@ -112,7 +119,8 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
 
                         //save request for activity use
                         MyApplication.setInTripState(destlat, destlng);
-                        startService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
+
+                        x=1;//y3ny 2ra klo 3shn ynfz mra w7da bs
                         startActivity(new Intent(ArrivingActivity.this, InTripActivity.class));
                         finish();
                     }
@@ -278,5 +286,10 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
 //
 //        } catch (JSONException e) { e.printStackTrace(); }
 //    }
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
+    }
+
 
 }

@@ -15,8 +15,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/warningimg"
-        android:padding="50dp"
+        android:padding="37dp"
         android:layout_above="@+id/signupbtn" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/helptxt"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:paddingBottom="17dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="Need help?"/>
 
     <Button
         style="?android:textAppearanceSmall"
@@ -43,7 +53,7 @@
         android:id="@+id/smsbtn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Send SMS to your relative number !!!"
+        android:text="Send SMS to relative number!"
         android:textColor="#fff"
         android:padding="7dp"
         android:textSize="17dp"

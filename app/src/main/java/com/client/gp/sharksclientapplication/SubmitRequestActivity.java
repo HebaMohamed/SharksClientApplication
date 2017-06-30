@@ -238,7 +238,7 @@ public class SubmitRequestActivity extends AppCompatActivity {
                     distinM=distOb.getInt("value");
                     durationinS=timeOb.getInt("value");
 
-                    costinM=(4/1000)*distinM;
+                    costinM=(int)(4*(distinM/1000));//4 is the km cost
                     costtxt.setText(costinM+"$");
 
 
@@ -367,11 +367,11 @@ public class SubmitRequestActivity extends AppCompatActivity {
         };
 
         //sr.setRetryPolicy(new DefaultRetryPolicy( 100000, 10, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        int MY_SOCKET_TIMEOUT_MS = 120000;
-        sr.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        int MY_SOCKET_TIMEOUT_MS = 120000;
+//        sr.setRetryPolicy(new DefaultRetryPolicy(
+//                MY_SOCKET_TIMEOUT_MS,
+//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Add the request to the queue
         Volley.newRequestQueue(this).add(sr);

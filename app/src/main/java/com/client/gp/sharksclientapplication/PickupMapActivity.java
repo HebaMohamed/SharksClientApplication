@@ -49,7 +49,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mMap;
     TextView addrtxt;
-    Button submitbtn2;//submitbtn
+    Button submitbtn2, submitbtn;
     public static double lat, lng;
     public static String approxAddress;
 
@@ -66,16 +66,17 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
 
         addrtxt = (TextView) findViewById(R.id.addrtxt);
-//        submitbtn = (Button) findViewById(R.id.submitbtn);
+        submitbtn = (Button) findViewById(R.id.submitbtn);
         submitbtn2 = (Button) findViewById(R.id.submitbtn2);
 
-//        submitbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(PickupMapActivity.this, SubmitRequestActivity.class));
-//                finish();
-//            }
-//        });
+        submitbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecommendedMapActivity.requestedvid = 0;//so the web service will pick the nearest
+                startActivity(new Intent(PickupMapActivity.this, SubmitRequestActivity.class));
+                finish();
+            }
+        });
 
         submitbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,23 +162,30 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
                         double lat = postSnapshot.child("Latitude").getValue(Double.class);
                         double lng = postSnapshot.child("Longitude").getValue(Double.class);
 
-                        ll = new LatLng(lat, lng);
-                        int f = 0;
-                        for (int i = 0; i < markers.size(); i++) {
-                            if (markers.get(i).getSnippet().toString().equals(String.valueOf(vid))) {
-                                //markers.get(i).setPosition(ll);
-                                // animation part
-                                animateMarkerToGB(markers.get(i), ll);
-                                f = 1;
+                        int status = postSnapshot.child("status").getValue(int.class);
+
+
+                        if (status == 1){//in working time
+
+                            ll = new LatLng(lat, lng);
+                            int f = 0;
+                            for (int i = 0; i < markers.size(); i++) {
+                                if (markers.get(i).getSnippet().toString().equals(String.valueOf(vid))) {
+                                    //markers.get(i).setPosition(ll);
+                                    // animation part
+                                    animateMarkerToGB(markers.get(i), ll);
+                                    f = 1;
+                                }
                             }
-                        }
-                        if (f == 0) {
-                            markers.add(mMap.addMarker(new MarkerOptions()
-                                    .position(ll)
-                                    .title("Shark Location")
-                                    .snippet(String.valueOf(vid))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
-                        }
+                            if (f == 0) {
+                                markers.add(mMap.addMarker(new MarkerOptions()
+                                        .position(ll)
+                                        .title("Shark Location")
+                                        .snippet(String.valueOf(vid))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallblueshark))));
+                            }
+
+                    }
                     } catch (NullPointerException e) {
                         e.printStackTrace();//3shn momkn fl test yb2a fy node msh feha lat msln
                     }

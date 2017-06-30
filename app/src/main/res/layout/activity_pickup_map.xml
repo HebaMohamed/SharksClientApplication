@@ -86,15 +86,6 @@
     android:weightSum="2"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true">
-        <!--<Button-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/buttonoval"-->
-            <!--android:textColor="#fff"-->
-            <!--android:padding="10dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="Quick Pickup"-->
-            <!--android:id="@+id/submitbtn" />-->
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,7 +93,16 @@
             android:textColor="#fff"
             android:padding="10dp"
             android:layout_weight="1"
-            android:text="Set Pickup Location"
+            android:text="Pick The Nearest"
+            android:id="@+id/submitbtn" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonoval"
+            android:textColor="#fff"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:text="Pick The Best"
             android:id="@+id/submitbtn2" />
 </LinearLayout>
 

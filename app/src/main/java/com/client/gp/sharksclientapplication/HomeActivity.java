@@ -8,7 +8,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.client.gp.sharksclientapplication.myclasses.AppConstants;
+import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myservices.FemaleService;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import at.markushi.ui.CircleButton;
 
@@ -18,16 +23,22 @@ public class HomeActivity extends AppCompatActivity {
     ImageButton historybtn,settingsbtn;
     TextView usernametxt;
 
+    Passenger p ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getSupportActionBar().hide();
 
+        p = MyApplication.getLoggedPassenger();
+
         gobtn=(CircleButton)findViewById(R.id.gobtn);
         historybtn=(ImageButton)findViewById(R.id.historybtn);
         settingsbtn=(ImageButton)findViewById(R.id.settingsbtn);
         usernametxt=(TextView)findViewById(R.id.usernametxt);
+
+        usernametxt.setText(p.fullName);
 
         gobtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +65,27 @@ public class HomeActivity extends AppCompatActivity {
 
 
             }
+        });
+
+
+        //check if user is active
+        //listen if the passenger is deactivated
+        MyApplication.myFirebaseRef.child(AppConstants.FIRE_PASSENGER).child(String.valueOf(p.id)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean active = dataSnapshot.child("active").getValue(boolean.class);
+                if (!active) {
+                    MyApplication.storelogout();
+                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
         });
 
     }

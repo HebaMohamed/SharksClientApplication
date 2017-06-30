@@ -160,4 +160,10 @@ public class DoneTripActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(sr);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
+    }
+
 }

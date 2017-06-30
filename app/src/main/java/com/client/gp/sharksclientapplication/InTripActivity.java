@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.LatLngInterpolator;
+import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myclasses.TalkMessage;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.client.gp.sharksclientapplication.myservices.FemaleService;
@@ -65,12 +66,16 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
     Trip currentTrip;
     private Marker drivermarker;
 
-    int f;
+    int f, ff;
 
+    Passenger p;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_trip);
+
+        p=MyApplication.getLoggedPassenger();
+
 
         addresstxt=(TextView)findViewById(R.id.addresstxt);
         durationtxt=(TextView)findViewById(R.id.durationtxt);
@@ -120,7 +125,7 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 //        };
 //        registerReceiver(receiver, filter);
 
-        f = 0;
+        ff = 0;
 
         //listen & get initial value
         MyApplication.myFirebaseRef.child(AppConstants.FIRE_TRIPS).child(String.valueOf(currentTrip.trip_ID)).addValueEventListener(new ValueEventListener() {
@@ -128,8 +133,8 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String status = dataSnapshot.child("status").getValue(String.class);
                 String comment = dataSnapshot.child("comment").getValue(String.class);
-                if(status.equals("ended")&&(f==0)){//&&comment.equals("")) {
-                    f=1;
+                if(status.equals("ended")&&(ff==0)){//&&comment.equals("")) {
+                    ff=1;
                     MyApplication.setEndTripState();
                     stopService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
                     startActivity(new Intent(InTripActivity.this, DoneTripActivity.class));
@@ -160,7 +165,10 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
         MyApplication.myFirebaseRef.child(AppConstants.FIRE_TRIPS).child(String.valueOf(currentTrip.trip_ID)).child("talk").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                alertcircle.setVisibility(View.VISIBLE);
+                if(f==0)
+                    f=1;//3shn yb2a mra w7da bs
+                else
+                    alertcircle.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -169,6 +177,9 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
             }
 
         });
+
+        if(p.gender.equals("Female"))
+            startService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
 
     }
 
@@ -398,6 +409,10 @@ public class InTripActivity extends FragmentActivity implements OnMapReadyCallba
 
 
 
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
+    }
 
 
 

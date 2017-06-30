@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.client.gp.sharksclientapplication.myclasses.AppConstants;
 import com.client.gp.sharksclientapplication.myclasses.MyURL;
 import com.client.gp.sharksclientapplication.myclasses.Passenger;
 import com.client.gp.sharksclientapplication.myservices.FemaleService;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-
+    Passenger p;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         try {
-            Passenger p = MyApplication.getLoggedPassenger();
-            passengerReopen(p);
+            p = MyApplication.getLoggedPassenger();
+
+            if(p!=null) {
+                passengerReopen(p);
+            }
+            else {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

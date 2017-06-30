@@ -79,6 +79,17 @@ public class SignUpActivity extends AppCompatActivity {
                 if(!(passtxt.getText().toString().equals(passconftxt.getText().toString()))){
                     Toast.makeText(SignUpActivity.this, "Please Check Password Confirmation", Toast.LENGTH_SHORT).show();
                 }
+                else if(usernametxt.getText().toString().equals("")) {
+                    Toast.makeText(SignUpActivity.this, "Fill your name!", Toast.LENGTH_SHORT).show();
+                }else if(emailtxt.getText().toString().equals("")) {
+                    Toast.makeText(SignUpActivity.this, "Fill your email!", Toast.LENGTH_SHORT).show();
+                }else if(phonetxt.getText().toString().equals("")) {
+                    Toast.makeText(SignUpActivity.this, "Fill your phone!", Toast.LENGTH_SHORT).show();
+                }else if(reltedphonetxt.getText().toString().equals("")) {
+                    Toast.makeText(SignUpActivity.this, "Fill your relative phone!", Toast.LENGTH_SHORT).show();
+                }else if(Integer.parseInt(agetxt.getText().toString())<18){
+                    Toast.makeText(SignUpActivity.this, "Your age have to be above 18!", Toast.LENGTH_SHORT).show();
+                }
                 else{
                     String gender = "";
                     if(femalebtn.isChecked())
@@ -159,7 +170,7 @@ public class SignUpActivity extends AppCompatActivity {
         final String requestBody = toobj.toString();
 
         progress.show();
-        StringRequest sr = new StringRequest(Request.Method.POST, MyURL.login , new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, MyURL.signup , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

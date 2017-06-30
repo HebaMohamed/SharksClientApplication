@@ -258,7 +258,7 @@ public class LastTripDetailsActivity extends AppCompatActivity {
             String latcenter = String.valueOf(pathwayLocs.get(centersize).getLatitude());
             String lngcenter = String.valueOf(pathwayLocs.get(centersize).getLongitude());
 
-            staticmapurl += "center="+latcenter+","+lngcenter+"&size=290x110&path=color:0x0000ff|weight:5";//&zoom=14
+            staticmapurl += "center="+latcenter+","+lngcenter+"&size=200x110&path=color:0x0000ff|weight:5";//&zoom=14
 
             for (int i = 0; i < pathwayLocs.size(); i++) {
                 String lat = String.valueOf(pathwayLocs.get(i).getLatitude());

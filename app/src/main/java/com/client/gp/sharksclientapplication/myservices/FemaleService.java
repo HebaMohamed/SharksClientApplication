@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.client.gp.sharksclientapplication.FemaleActivity;
+import com.client.gp.sharksclientapplication.InTripActivity;
 import com.client.gp.sharksclientapplication.MyApplication;
 import com.client.gp.sharksclientapplication.myclasses.Trip;
 import com.google.android.gms.common.ConnectionResult;
@@ -28,7 +30,7 @@ public class FemaleService  extends Service implements SensorListener {
     //    private long startTimeInMilliSeconds = 0L;
     SensorManager sensorMgr;
 
-    private static final int SHAKE_THRESHOLD = 800;
+    private static final int SHAKE_THRESHOLD = 1000;//800
 
     float x, y, z;
     float last_x, last_y, last_z;
@@ -89,7 +91,7 @@ public class FemaleService  extends Service implements SensorListener {
 
 
                 if (speed > SHAKE_THRESHOLD) {
-                    Log.d("sensor", "shake detected w/ speed: " + speed);
+                    Log.d("sensor", "shake detected w/ speed: " + speed+"count = "+count);
 //                    sensortxt.setText("Motion");
 //                    sensortxt.setTextColor(Color.RED);
 
@@ -102,9 +104,16 @@ public class FemaleService  extends Service implements SensorListener {
 //                            st.execute("INSERT INTO sensor (passengerid,speed) VALUES (" + passengerid + "," + speed + ");");
 //                            sendPubWarning();
 
-                            MyApplication.myFirebaseRef.child("femalesaftey").child(String.valueOf(System.currentTimeMillis())).child("tid").setValue(String.valueOf(t.trip_ID));
-                            MyApplication.myFirebaseRef.child("femalesaftey").child(String.valueOf(System.currentTimeMillis())).child("lat").setValue(String.valueOf(30.045915));
-                            MyApplication.myFirebaseRef.child("femalesaftey").child(String.valueOf(System.currentTimeMillis())).child("lng").setValue(String.valueOf(31.22429));
+                            long ts = System.currentTimeMillis();
+                            MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("tid").setValue(String.valueOf(t.trip_ID));
+                            MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("lat").setValue(String.valueOf(FemaleActivity.lat));
+                            MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("lng").setValue(String.valueOf(FemaleActivity.lng));
+                            MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("status").setValue("new");
+
+                            MyApplication.myFirebaseRef.child("notifications").child("femalewarning").setValue("NEW");
+
+                            startHelpActivity();
+
 
 
                         } catch (Exception e) {
@@ -129,6 +138,16 @@ public class FemaleService  extends Service implements SensorListener {
 
         }
 
+    }
+
+
+
+    void startHelpActivity()
+    {
+        Intent intent = new Intent("android.intent.category.LAUNCHER");
+        intent.setClassName("com.client.gp.sharksclientapplication", "com.client.gp.sharksclientapplication.FemaleActivity");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
