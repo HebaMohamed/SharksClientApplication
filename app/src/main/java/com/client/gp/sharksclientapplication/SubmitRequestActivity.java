@@ -140,70 +140,7 @@ public class SubmitRequestActivity extends AppCompatActivity {
 
     int sentflag = 0;//3shn msh m3 kl change yb3t tany
 
-//    int min_id;
-//    double min_distance;
-//    void getTheNearest(final Location lc){
-//        min_id = 0;
-//        min_distance = 0;
-//        progress.show();
-//
-//
-//        MyApplication.myFirebaseRef.child("vehicles").addValueEventListener(new ValueEventListener() {
-//
-//
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                try {
-//                    Location loc1 = new Location("");
-//                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                        try{
-//                            int vid = Integer.parseInt(postSnapshot.getKey());
-//                            double lat = postSnapshot.child("lat").getValue(Double.class);
-//                            double lng = postSnapshot.child("lng").getValue(Double.class);
-//                            int status = postSnapshot.child("status").getValue(Integer.class);
-//
-//                            if(status==0){
-//                                loc1.setLatitude(lat);
-//                                loc1.setLongitude(lng);
-//
-//                                double dist = loc1.distanceTo(lc);
-//                                if(min_id==0){//first time only
-//                                    min_id = vid;
-//                                    min_distance = dist;
-//                                }else{
-//                                    if(min_distance>dist){
-//                                        min_id = vid;
-//                                        min_distance = dist;
-//                                    }
-//                                }
-//                            }
-//                        }catch(NullPointerException ne){
-//                            ne.printStackTrace();
-//                        }catch(NumberFormatException ne){
-//                            ne.printStackTrace();
-//                        }
-//                    }
-//                    ////////////////////////////////////////////////////////////////////////////////
-//
-//                    if(sentflag==0) {
-//                        sendsubmit(selectedLoc, adddetailstxt.getText().toString(),min_id);
-//                        sentflag=1;
-//                    }
-//
-//
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//
-//            }
-//            @Override
-//            public void onCancelled(FirebaseError databaseError) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//            }
-//
-//        });
-//    }
+
 
 
     void getLocImg(Location loc) throws IOException {

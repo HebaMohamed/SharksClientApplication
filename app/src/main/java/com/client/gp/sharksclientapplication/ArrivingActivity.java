@@ -182,59 +182,6 @@ public class ArrivingActivity extends FragmentActivity implements OnMapReadyCall
 
         });
 
-//        //listen to my vehicles moves
-//        try {
-//            MyApplication.pubnub.subscribe(AppConstants.CHANNEL_PartnersLocation, new Callback() {
-//                        @Override
-//                        public void connectCallback(String channel, Object message) {
-////                            pubnub.publish("my_channel", "Hello from the PubNub Java SDK", new Callback() {});
-//                        }
-//
-//                        @Override
-//                        public void disconnectCallback(String channel, Object message) {
-//                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel + " : " + message.getClass() + " : " + message.toString());
-//                        }
-//
-//                        public void reconnectCallback(String channel, Object message) {
-//                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel + " : " + message.getClass() + " : " + message.toString());
-//                        }
-//
-//                        @Override
-//                        public void successCallback(String channel, Object message) { //l msg bttst2bl hna
-//                            System.out.println("SUBSCRIBE : " + channel + " : " + message.getClass() + " : " + message.toString());
-//
-//                            try {
-//                                JSONObject obj = (JSONObject) message;
-//                                int id = obj.getInt("id");
-//                                if (id == tripDriver.id) {//get location for my vehicle
-//                                    Double lat = obj.getDouble("lat");
-//                                    Double lng = obj.getDouble("lng");
-//                                    final LatLng ll = new LatLng(lat, lng);
-//
-//                                    runOnUiThread(new Runnable() { // l runnable d 3shn err IllegalStateException 3shn d async
-//                                        @Override
-//                                        public void run() {
-//                                            // Your code to run in GUI thread here
-//                                            drivermarker.setPosition(ll);
-//                                        }
-//                                    });
-//
-//                                }
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void errorCallback(String channel, PubnubError error) {
-//                            System.out.println("SUBSCRIBE : ERROR on channel " + channel + " : " + error.toString());
-//                        }
-//                    }
-//            );
-//        } catch (PubnubException e) {
-//            System.out.println(e.toString());
-//        }
-
     }
 
 

@@ -21,10 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        startService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
-//        stopService(new Intent(MyApplication.getAppContext(), FemaleService.class));//only start when start trip //start service
-
-
         try {
             p = MyApplication.getLoggedPassenger();
 
@@ -49,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         if(p!=null) {
             String appstate = MyApplication.getAppState();
             if(appstate.equals("requestsent")){
-//                    startActivity(new Intent(MainActivity.this, WaitActivity.class));
-//                    finish();
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 finish();
             } else if(appstate.equals("arriving")){

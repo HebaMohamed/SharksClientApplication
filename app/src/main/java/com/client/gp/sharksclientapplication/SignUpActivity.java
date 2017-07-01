@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String relatedphone = reltedphonetxt.getText().toString();
                     int age = Integer.parseInt(agetxt.getText().toString());
 
-                    String languagecode = languagesCodes.get(selectedIndex);
+                    String languagecode = languages.get(selectedIndex);
 
                     p = new Passenger(0,pass,name,gender,age,phone,relatedphone,languagecode,email);
 

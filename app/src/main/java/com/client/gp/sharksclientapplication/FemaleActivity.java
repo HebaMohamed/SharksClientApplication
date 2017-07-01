@@ -77,13 +77,13 @@ public class FemaleActivity extends AppCompatActivity {
 
 
         //listen to help actions
-        MyApplication.myFirebaseRef.child("warning").child("femalesaftey").addListenerForSingleValueEvent(new ValueEventListener() {
+        MyApplication.myFirebaseRef.child("warning").child("femalesaftey").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     int tid = postSnapshot.child("tid").getValue(int.class);
                     String status = postSnapshot.child("status").getValue(String.class);
-                    if(tid==t.trip_ID && !status.equals("ended")){
+                    if(tid==t.trip_ID && (!status.equals("ended"))){
                         helptxt.setText("Your help request is submitted, we'll take an action ASAP!");
                         dangerbtn.setVisibility(View.GONE);
                     }
@@ -120,6 +120,7 @@ public class FemaleActivity extends AppCompatActivity {
         MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("tid").setValue(String.valueOf(t.trip_ID));
         MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("lat").setValue(String.valueOf(FemaleActivity.lat));
         MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("lng").setValue(String.valueOf(FemaleActivity.lng));
+        MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("vid").setValue(MyApplication.getCurrentDriver().vehicle.id);
         MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("status").setValue("new");
 
         MyApplication.myFirebaseRef.child("notifications").child("femalewarning").setValue("NEW");

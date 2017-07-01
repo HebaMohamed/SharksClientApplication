@@ -96,7 +96,7 @@ public class FemaleService  extends Service implements SensorListener {
 //                    sensortxt.setTextColor(Color.RED);
 
                     count++;
-                    if (count > 10) {
+                    if (count > 5) {
 //                        Toast.makeText(MainActivity.this, "There is any problem ?!", Toast.LENGTH_SHORT).show();
                         //send alarm to server
                         try {
@@ -108,6 +108,7 @@ public class FemaleService  extends Service implements SensorListener {
                             MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("tid").setValue(String.valueOf(t.trip_ID));
                             MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("lat").setValue(String.valueOf(FemaleActivity.lat));
                             MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("lng").setValue(String.valueOf(FemaleActivity.lng));
+                            MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("vid").setValue(MyApplication.getCurrentDriver().vehicle.id);
                             MyApplication.myFirebaseRef.child("warning").child("femalesaftey").child(String.valueOf(ts)).child("status").setValue("new");
 
                             MyApplication.myFirebaseRef.child("notifications").child("femalewarning").setValue("NEW");

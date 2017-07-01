@@ -299,14 +299,7 @@ public class PickupMapActivity extends FragmentActivity implements OnMapReadyCal
                         //LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest,GeoLocMapActivity.this );
                         loc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                         if (loc != null) {
-//            dLat = loc.getLatitude();
-//            dLong = loc.getLongitude();
-//            //Does this log?
-//            Log.d(getClass().getSimpleName(), String.valueOf(dLat) + ", " + String.valueOf(dLong));
 
-//                            mMap.clear();
-//                            mMap.addMarker(new MarkerOptions().position(new LatLng(loc.getLatitude(), loc.getLongitude())).title("Assistant Location"));
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(loc.getLatitude(), loc.getLongitude())));
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()),14));
 
 
